@@ -1,0 +1,12 @@
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: Alibaba PuHuiTi;
+    font-weight: 400;
+    src: url(./assets/fonts/Alibaba_PuHuiTi_2.0_55_Regular_55_Regular.ttf) format("ttf");
+  }
+}
