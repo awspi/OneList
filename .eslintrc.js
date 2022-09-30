@@ -39,6 +39,7 @@ module.exports = {
     'spaced-comment': 'off',
     'vue/multi-word-component-names': 'off',
     'lines-between-class-members': 'off',
-    'no-unused-vars': 'off'
+    'no-unused-vars': 'off',
+    'vue/comment-directive': 'off'
   }
 }

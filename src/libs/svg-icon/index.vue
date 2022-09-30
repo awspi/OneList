@@ -15,11 +15,13 @@ const props = defineProps({
   },
   // 直接指定 svg 图标的颜色
   color: {
-    type: String
+    type: String,
+    default: null
   },
   // 通过 tailwind 指定 svg 颜色的类名
   fillClass: {
-    type: String
+    type: String,
+    default: null
   }
 })
 // 真实显示的 svg 图标名（拼接 #icon-）
@@ -28,6 +30,4 @@ const symbolId = computed(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
