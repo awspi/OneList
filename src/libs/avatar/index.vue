@@ -1,14 +1,11 @@
 <template>
-  <div class="relative cursor-pointer">
-    <img :src="src" class="rounded-full " :class="sizeClass">
-    <div v-show="status!=='none'" class="absolute left-0.5 top-1 rounded-full border-2 border-zinc-100 block"
-      :class="[statusIconSizeClass,{'bg-green-500':status==='online',' bg-gray-500':status==='offline'}]">
-    </div>
+  <div class="relative cursor-pointer shadow-md shadow-zinc-300/50">
+    <img :src="src" class="w-full" :class="shapeClass" />
   </div>
 </template>
 
 <script>
-const statusEnum = ['online', 'offline', 'none']
+const shapeEnum = ['square', 'round']
 </script>
 
 <script setup>
@@ -16,26 +13,16 @@ const props = defineProps({
   src: {
     required: true
   },
-  size: {
+
+  shape: {
     type: String,
-    default: '10'
-  },
-  status: {
-    type: String,
-    default: 'none',
+    default: 'square',
     validator(val) {
-      return statusEnum.includes(val)
+      return shapeEnum.includes(val)
     }
-  },
-  statusIconSize: {
-    type: String,
-    default: '2'
   }
 })
-const sizeClass = `w-${props.size} h-${props.size}`
-const statusIconSizeClass = `w-${props.statusIconSize} h-${props.statusIconSize}`
+const shapeClass = props.shape === 'square' ? ' rounded-md' : 'rounded-full'
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
