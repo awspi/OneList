@@ -13,6 +13,7 @@
         class="absolute p-1 z-20 bg-white dark:bg-zinc-900 border dark:border-zinc-700 rounded-md"
       >
         <!-- 匿名插槽:弹出层视图中展示的内容 -->
+
         <slot />
       </div>
     </transition>
@@ -48,6 +49,7 @@ const isVisiable = ref(false)
  * 4.生成气泡的样式对象,用来控制每个位置对应的样式
  * 5.根据prop,计算样式对象
  */
+
 const props = defineProps({
   // 控制气泡控制位置
   placement: {
@@ -72,7 +74,7 @@ const getElementSize = (target) => {
   if (!target) return {}
   return {
     width: target.offsetWidth,
-    heigeht: target.offsetHeight
+    height: target.offsetHeight
   }
 }
 /**
@@ -103,13 +105,13 @@ watch(isVisiable, (val) => {
         break
       case PROP_BOTTOM_LEFT:
         contentStyle.value.top =
-          getElementSize(referenceTarget.value).heigeht + 'px'
+          getElementSize(referenceTarget.value).height + 'px'
         contentStyle.value.left =
           -getElementSize(contentTarget.value).width + 'px'
         break
       case PROP_BOTTOM_RIGHT:
         contentStyle.value.top =
-          getElementSize(referenceTarget.value).heigeht + 'px'
+          getElementSize(referenceTarget.value).height + 'px'
         contentStyle.value.left =
           getElementSize(referenceTarget.value).width + 'px'
         break
@@ -119,14 +121,14 @@ watch(isVisiable, (val) => {
 //防抖 timer
 let timer = null
 /**
- * 鼠标移入触发
+ * 鼠标移入触发 类似防抖
  */
 const onMouseenter = () => {
   isVisiable.value = true
   timer && clearTimeout(timer)
 }
 /**
- * 鼠标出触发
+ * 鼠标移出触发
  */
 const onMouseleave = () => {
   timer = setTimeout(() => {
