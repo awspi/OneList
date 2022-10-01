@@ -11,6 +11,7 @@ const shapeEnum = ['square', 'round']
 <script setup>
 const props = defineProps({
   src: {
+    type: String,
     required: true
   },
 
