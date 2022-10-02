@@ -12,7 +12,7 @@
 <script setup>
 import filterVue from './components/filter/index.vue'
 import listVue from './components/list/index.vue'
-import detailVue from './components/list/detail.vue'
+import detailVue from './components/detail/index.vue'
 </script>
 
 <style lang="scss" scoped></style>

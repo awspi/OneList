@@ -1,5 +1,4 @@
 <template>
-  <!-- todo vuex 传参 -->
   <div
     class="h-screen pt-4 px-7 text-main-text border-r border-main-border overflow-y-auto"
   >

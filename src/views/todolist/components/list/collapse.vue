@@ -39,8 +39,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
+import { getCurrentInstance, ref } from 'vue'
+const instance = getCurrentInstance()
+const proxy = instance.appContext.config.globalProperties
 const props = defineProps({
   items: {
     type: Array,
@@ -57,18 +58,19 @@ const props = defineProps({
 /**
  * 是否折叠
  */
+
 const isCollapse = ref(false)
 
 /**
- * drawer是否可见
- */
-const isVisible = ref(false)
-/**
- * 任务被点击
+ * 任务被点击 打开detail
  */
 const onTaskClick = () => {
-  console.log(123)
-  isVisible.value = !isVisible.value
+  //控制detail显示
+  proxy.$mitt.emit('detail', {
+    name: `Leetcode${Math.random()}`,
+    desc: '这里发生的是远程接收到更新，并且git-flow要求在合并功能之前将develop和origin/develop 设置为相同的提交。这是为了防止发布分支时出现不良冲突',
+    time: '今天,9月28日'
+  })
 }
 </script>
 
