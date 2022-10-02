@@ -1,14 +1,18 @@
 <template>
-  <div class="bg-pink-300">
-    <div
-      class="absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] text-white"
-    >
-      <p class="text-4xl">hello OneList !</p>
-      <p class="text-xs text-right">小而美 team</p>
-    </div>
+  <div class="bg-main-bg flex" @click="() => (isVisible = !isVisible)">
+    <!-- filter -->
+    <filter-vue class="w-1/6 min-w-[180px]"></filter-vue>
+    <!-- list -->
+    <list-vue class="w-5/12 min-w-[420px]"></list-vue>
+    <!-- detail -->
+    <detail-vue class="w-5/12 min-w-[420px]"></detail-vue>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import filterVue from './components/filter/index.vue'
+import listVue from './components/list/index.vue'
+import detailVue from './components/list/detail.vue'
+</script>
 
 <style lang="scss" scoped></style>
