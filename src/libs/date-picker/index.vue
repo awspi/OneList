@@ -77,9 +77,13 @@ const props = defineProps({
 const emits = defineEmits(['update:modelValue', 'select'])
 //相当于vueuse的useVModel
 const selectedDate = ref(props.modelValue)
-watch(selectedDate, () => {
-  emits('update:modelValue', selectedDate.value)
-})
+watch(
+  selectedDate,
+  () => {
+    emits('update:modelValue', selectedDate.value)
+  },
+  { immediate: true }
+)
 
 //今天日期 2022-10-1
 const today = moment(new Date()).format('YYYY-MM-DD')
