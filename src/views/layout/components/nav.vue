@@ -42,7 +42,7 @@
     </template>
 
     <!-- setting -->
-    <router-link to="/setting" class="mt-auto mb-10">
+    <router-link to="/setting/setupCenter" class="mt-auto mb-10">
       <m-svg-icon
         name="setting"
         class="mt-6 w-12 h-12 p-1 rounded-full hover:scale-95 hover:bg-main/20 duration-150 cursor-pointer text-white"

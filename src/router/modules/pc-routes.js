@@ -56,6 +56,53 @@ export default [
   {
     path: '/setting',
     name: 'setting',
-    component: () => import('@/views/setting/index.vue')
+    component: () => import('@/views/setting/main/index.vue'),
+    children: [
+      {
+        path: '/',
+        component: () => import('@/views/setting/setupCenter/setupCenter.vue'),
+        //标记当前的页面只有登录之后才能进入
+        meta: {
+          user: true
+        }
+      },
+      {
+        path: 'setupCenter',
+        name: 'setupCenter',
+        component: () => import('@/views/setting/setupCenter/setupCenter.vue'),
+        //标记当前的页面只有登录之后才能进入
+        meta: {
+          user: true
+        }
+      },
+      {
+        path: 'privacyAgreement',
+        name: 'privacyAgreement',
+        component: () =>
+          import('@/views/setting/privacyAgreement/privacyAgreement.vue'),
+        //标记当前的页面只有登录之后才能进入
+        meta: {
+          user: true
+        }
+      },
+      {
+        path: 'topics',
+        name: 'topics',
+        component: () => import('@/views/setting/topics/topics.vue'),
+        //标记当前的页面只有登录之后才能进入
+        meta: {
+          user: true
+        }
+      },
+      {
+        path: 'about',
+        name: 'about',
+        component: () => import('@/views/setting/about/about.vue'),
+        //标记当前的页面只有登录之后才能进入
+        meta: {
+          user: true
+        }
+      }
+    ]
   }
 ]

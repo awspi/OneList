@@ -9,4 +9,8 @@
 console.log('import.url', import.meta.env.VITE_BASE_API)
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.body {
+  font-family: AliFont;
+}
+</style>
