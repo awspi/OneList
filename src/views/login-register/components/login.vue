@@ -46,6 +46,8 @@ import {
   ErrorMessage as VeeErrorMessage
 } from 'vee-validate'
 import { validateUsername, validatePassword } from '../validate'
+import { message } from '@/libs'
+
 const router = useRouter()
 const store = useStore()
 
@@ -62,6 +64,7 @@ const loading = ref(false)
  * 登录
  */
 const onLogin = async () => {
+  message('success', '登录成功')
   loading.value = true
   console.log(loginForm)
   //执行登录操作

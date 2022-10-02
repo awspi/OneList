@@ -8,7 +8,7 @@
     >
       <m-svg-icon
         :name="item.icon"
-        class="w-7 h-7 p-1 rounded-md hover:scale-95 duration-150 cursor-pointer mr-2"
+        class="w-7 h-7 p-1 rounded-md hover:scale-95 duration-150 cursor-pointer"
         fill-class="text-main-gray"
       ></m-svg-icon>
       <p class="text-md font-semibold text-main-gray">{{ item.title }}</p>
@@ -32,6 +32,8 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
 const timeList = [
   { icon: 'filter', title: '所有' },
   { icon: 'filter', title: '今天' },
@@ -43,6 +45,7 @@ const condList = [
   { icon: 'recycle', title: '垃圾桶' },
   { icon: 'data-screen', title: '摘要' }
 ]
+const isDialogVisible = ref(true)
 </script>
 
 <style lang="scss" scoped></style>

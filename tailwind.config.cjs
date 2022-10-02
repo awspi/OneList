@@ -19,7 +19,16 @@ module.exports = {
         'pro-1': '#D23333',
         'pro-2': '#FECE00',
         'pro-3': '#4095E5',
-        'pro-4': '#6F6F6F'
+        'pro-4': '#6F6F6F',
+        'success-100': '#F2F9EC',
+        'success-200': '#E4F2DB',
+        'success-300': '#7EC050',
+        'warn-100': '#FCF6ED',
+        'warn-200': '#F8ECDA',
+        'warn-300': '#DCA550',
+        'error-100': '#ED7456',
+        'error-200': '#f3471c',
+        'error-300': '#ffffff'
       }
     }
   },
