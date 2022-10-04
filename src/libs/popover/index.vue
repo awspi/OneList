@@ -10,7 +10,7 @@
         v-show="isVisiable"
         ref="contentTarget"
         :style="contentStyle"
-        class="absolute p-1 z-20 bg-white borderrounded-md rounded-sm"
+        class="absolute p-1 z-20 bg-white border rounded-md"
       >
         <!-- 匿名插槽:弹出层视图中展示的内容 -->
         <slot />

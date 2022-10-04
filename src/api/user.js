@@ -5,11 +5,10 @@ import request from '../utils/request'
  * 登录
  */
 export const loginUser = (data) => {
-  console.log(data)
   return request({
     url: '/user/login',
     method: 'POST',
-    data
+    data: data
   })
 }
 /**
@@ -19,7 +18,7 @@ export const registerUser = (data) => {
   return request({
     url: '/user/add',
     method: 'POST',
-    data
+    data: data
   })
 }
 /**

@@ -15,10 +15,17 @@
     </div>
     <!-- 输入 -->
     <template v-else>
+      <input
+        v-model="taskForm.name"
+        placeholder="请输入标题"
+        type="text"
+        class="border-b w-full outline-0 py-0.5 px-2"
+      />
       <textarea
         v-model="taskForm.description"
+        placeholder="请输入任务详情"
         rows="4"
-        class="duration-100 outline-0 py-0.5 px-3 pt-2 text-md rounded-sm w-full resize-none"
+        class="duration-100 outline-0 py-0.5 px-2 pt-2 text-md rounded-sm w-full resize-none"
       ></textarea>
       <!-- bottom -->
       <div class="flex items-center py-1 px-2">
@@ -54,19 +61,35 @@
         </button>
       </div>
     </template>
+    <!-- 遮罩 -->
+    <div
+      v-show="isVisible"
+      class="absolute left-0 top-0 w-screen h-screen"
+      @click="() => (isVisible = !isVisible)"
+    ></div>
+    <!-- 其他时间 -->
+    <m-date-picker
+      v-show="isVisible"
+      v-model="taskForm.alarmTime"
+      class="absolute w-60"
+      @select="isVisible = !isVisible"
+    ></m-date-picker>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { message } from '@/libs'
+import moment from 'moment'
 // 表单
 const taskForm = ref({
   name: '',
   description: '',
   alarmTime: ''
 })
+const isVisible = ref(false)
 // 是否折叠
-let isCollapse = ref(false)
+const isCollapse = ref(false)
 // 时间选项
 const options = [
   { name: '今天', fillClass: 'fill-main' },
@@ -85,24 +108,42 @@ const onOptionsHandler = (option) => {
   selectedOption.value = option.name
   switch (option.name) {
     case '今天':
-      // taskForm.value.alarmTime=''
+      taskForm.value.alarmTime = moment()
+        .startOf('day')
+        .format('YYYY-MM-DD HH:MM:SS')
       console.log(option)
       break
     case '明天':
-      // taskForm.value.alarmTime=''
+      taskForm.value.alarmTime = moment()
+        .add(1, 'days')
+        .startOf('day')
+        .format('YYYY-MM-DD HH:MM:SS')
       console.log(option)
       break
     case '其他时间':
-      //打开 datepicker
-      console.log(option)
+      isVisible.value = true
       break
 
     default:
       break
   }
 }
+//添加任务
 const onAddTaskClick = () => {
-  //todo  addTask
+  console.log(taskForm)
+  if (!taskForm.value.name) {
+    message('error', '任务名不能为空')
+    return
+  }
+  isCollapse.value = !isCollapse.value
+  message('success', '新建成功')
+  //todo api
+  selectedOption.value = '今天'
+  taskForm.value = {
+    name: '',
+    description: '',
+    alarmTime: moment().startOf('day').format('YYYY-MM-DD HH:MM:SS')
+  }
 }
 </script>
 

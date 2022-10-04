@@ -24,10 +24,11 @@ export default {
     async register(context, payload) {
       const { password } = payload
       // 注册
-      return await registerUser({
+      const data = await registerUser({
         ...payload,
         password: password // ? md5(password) : ''
       })
+      console.log(data)
     },
     //登录
     async login({ commit, dispatch }, payload) {
@@ -37,8 +38,8 @@ export default {
         password: password // ? md5(password) : ''
       })
       console.log(data)
-      commit('setToken', data.token)
-      dispatch('profile')
+      // commit('setToken', data.token)
+      // dispatch('profile')
     },
     //获取用户信息
     async profile({ commit }) {
