@@ -66,12 +66,12 @@ const proxy = instance.appContext.config.globalProperties
 onMounted(() => {
   proxy.$mitt.on('detail', ({ name, desc, time }) => {
     isVisible.value = false
-    nextTick(() => {
+    setTimeout(() => {
       isVisible.value = true
       taskName.value = name
       taskDesc.value = desc
       alarmTime.value = time
-    })
+    }, 100)
   })
 })
 </script>

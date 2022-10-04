@@ -47,6 +47,7 @@ import {
 } from 'vee-validate'
 import { validateUsername, validatePassword } from '../validate'
 import { message } from '@/libs'
+import { getProfile } from '../../../api/user'
 
 const router = useRouter()
 const store = useStore()
@@ -55,7 +56,7 @@ const store = useStore()
  * login表单
  */
 const loginForm = ref({
-  username: 'admin',
+  username: 'admin123',
   password: '123456'
 })
 // 按钮loading状态
@@ -66,12 +67,9 @@ const loading = ref(false)
 const onLogin = async () => {
   message('success', '登录成功')
   loading.value = true
-  console.log(loginForm)
   //执行登录操作
   try {
-    await store.dispatch('user/login', {
-      ...loginForm.value
-    })
+    await store.dispatch('user/login', loginForm.value)
   } finally {
     loading.value = false
   }

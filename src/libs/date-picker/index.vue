@@ -86,7 +86,7 @@ watch(
 )
 
 //今天日期 2022-10-1
-const today = moment(new Date()).format('YYYY-MM-DD')
+const today = moment(new Date()).format('YYYY-MM-DD HH:MM:SS')
 // 根据月份生成日期的信息:年/月/日/上个月/下个月
 const date = ref({})
 //用来渲染日历的数组
@@ -109,7 +109,7 @@ const initDate = (month) => {
     for (var j = 0; j < 7; j++) {
       const day = {}
       day.num = start.toObject().date // 当前号数 25
-      day.date = start.format('YYYY-MM-DD') // 返回值为2022-10-25
+      day.date = start.format('YYYY-MM-DD HH:MM:SS') // 返回值为2022-10-25
       day.month = start.format('MM') // 当前号数对应的月份，比如日历上个月25号则day.month = 9;这个月1号day.month = 10
       start.add(1, 'days') // 每循环一次日期加一天
       days.push(day)

@@ -21,6 +21,7 @@
         v-show="!isCollapse"
         class="flex items-center cursor-pointer"
         @click="onTaskClick(item)"
+        @contextmenu.prevent="openMenu($event, item)"
       >
         <m-svg-icon
           name="circle"
@@ -35,17 +36,28 @@
         </div>
       </div>
     </template>
+    <div
+      v-show="visiable"
+      class="absolute left-0 top-0 w-screen h-screen"
+      @click="() => (visiable = !visiable)"
+    ></div>
+    <context-menu-vue
+      v-if="visiable"
+      :item="selectedItem"
+      :style="menuStyle"
+    ></context-menu-vue>
   </div>
 </template>
 
 <script setup>
 import { getCurrentInstance, ref } from 'vue'
+import contextMenuVue from './contextMenu.vue'
 const instance = getCurrentInstance()
 const proxy = instance.appContext.config.globalProperties
 const props = defineProps({
   items: {
     type: Array,
-    required: true
+    default: null
   },
   title: {
     type: String
@@ -55,21 +67,40 @@ const props = defineProps({
     default: 'text-pro-4'
   }
 })
+const selectedItem = ref(props.items && props.items[0])
+/**
+ * 鼠标右键打开菜单
+ */
+const menuStyle = ref({
+  left: 0,
+  top: 0
+})
+const visiable = ref(false)
+const openMenu = (e, item) => {
+  console.log(item)
+  const { x, y } = e //获取鼠标坐标
+  menuStyle.value.left = x + 'px'
+  menuStyle.value.top = y + 'px'
+  selectedItem.value = item
+  visiable.value = !visiable.value
+}
+
 /**
  * 是否折叠
  */
-
 const isCollapse = ref(false)
 
 /**
  * 任务被点击 打开detail
  */
-const onTaskClick = () => {
+const onTaskClick = (item) => {
+  console.log(item)
   //控制detail显示
+
   proxy.$mitt.emit('detail', {
-    name: `Leetcode${Math.random()}`,
-    desc: '这里发生的是远程接收到更新，并且git-flow要求在合并功能之前将develop和origin/develop 设置为相同的提交。这是为了防止发布分支时出现不良冲突',
-    time: '今天,9月28日'
+    name: item.title,
+    desc: item.desc,
+    time: ``
   })
 }
 </script>
