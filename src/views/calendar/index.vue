@@ -1,7 +1,16 @@
 <template>
-  <div>calendar</div>
+  <div class="calendar-box">
+    <CalendarComponent></CalendarComponent>
+  </div>
 </template>
 
-<script setup></script>
+<script setup>
+import CalendarComponent from './components/CalendarComponent.vue'
+</script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.calendar-box {
+  height: 100%;
+  width: 100%;
+}
+</style>

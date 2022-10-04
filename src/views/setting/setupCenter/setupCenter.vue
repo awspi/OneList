@@ -15,8 +15,7 @@
       <p class="sc-title">账号信息</p>
       <div class="info-title info-space">密码</div>
       <div class="passworld info-space">
-        <span>{{ data.passworld }}</span>
-        <a class="change-bnt">更改密码</a>
+        <a class="passworld-change-bnt">更改密码</a>
       </div>
       <div class="info-title info-space">第三方账号绑定</div>
       <div class="bind info-space">
@@ -102,6 +101,11 @@ const data = {
 }
 .passworld {
   display: flex;
+}
+
+.passworld-change-bnt {
+  color: #147ad9;
+  cursor: pointer;
 }
 
 .bind {

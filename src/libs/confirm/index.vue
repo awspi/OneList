@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/require-default-prop -->
 <template>
   <div>
     <!-- 蒙版 -->
@@ -75,14 +76,17 @@ const props = defineProps({
     default: '确定'
   },
   //取消事件
+  // eslint-disable-next-line vue/require-default-prop
   cancelHandler: {
     type: Function
   },
   //确定事件
+  // eslint-disable-next-line vue/require-default-prop
   confirmHandler: {
     type: Function
   },
   //关闭回调
+  // eslint-disable-next-line vue/require-default-prop
   close: {
     type: Function
   }
