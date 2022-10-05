@@ -144,7 +144,7 @@ const filterByTime = async (type) => {
 const filterByState = async () => {
   const res = await getAllTaskList()
   const list = res.lists
-  const afterList = list.filter((item) => item.state?.toString() === '0')
+  const afterList = list.filter((item) => item.state?.toString() === '1')
   store.commit('task/clearTaskList')
   afterList.forEach((item) => {
     store.commit('task/addTask', { key: `pro_${item.priority}`, val: item })
