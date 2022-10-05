@@ -13,7 +13,7 @@ const store = createStore({
       //指定保存到localstorage的key
       key: 'OneList',
       //需要保存的模块
-      paths: ['app', 'user', 'task']
+      paths: ['app', 'user', 'task'] //
     })
   ]
 })

@@ -13,6 +13,13 @@
 import filterVue from './components/filter/index.vue'
 import listVue from './components/list/index.vue'
 import detailVue from './components/detail/index.vue'
+import { onMounted } from 'vue'
+import { useStore } from 'vuex'
+const store = useStore()
+onMounted(() => {
+  console.log('initTaskList')
+  store.dispatch('task/initTaskList')
+})
 </script>
 
 <style lang="scss" scoped></style>

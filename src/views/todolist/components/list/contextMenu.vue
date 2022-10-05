@@ -1,12 +1,12 @@
 <template>
   <div
-    class="fixed px-2 w-48 py-1 z-20 bg-white text-main-gray border rounded-md"
+    class="fixed px-2 w-56 py-1 bg-white text-main-gray border rounded-md z-50"
   >
     <!-- 日期 -->
     <span class="text-sm">日期</span>
     <div class="flex items-center justify-between">
       <span class="text-main-text-blue text-sm flex-shrink-0">{{
-        item && item.time
+        moment(item?.alarmTime).format('YY-MM-DD HH:MM')
       }}</span>
       <!-- 修改时间 -->
       <div
@@ -31,6 +31,8 @@
           name="flag"
           class="w-7 h-7 p-1 m-1 hover:bg-main-shallow/20 cursor-pointer"
           :fill-class="item.fillClass"
+          :class="{ 'bg-main-shallow/20': selectedPro === item.value }"
+          @click="onUpdatePriority(item)"
         ></m-svg-icon>
       </template>
     </div>
@@ -42,7 +44,7 @@
       v-for="btn in btnArr"
       :key="btn.name"
       class="flex items-center p-1 cursor-pointer rounded hover:bg-main-shallow/20"
-      @click="onItemClick(item)"
+      @click="onItemClick(btn)"
     >
       <m-svg-icon
         :name="btn.icon"
@@ -61,31 +63,65 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { message } from '../../../../libs'
+import moment from 'moment'
+import { ref, watch } from 'vue'
+import { useStore } from 'vuex'
+const store = useStore()
 const props = defineProps({
   item: {
     type: Object,
     required: true
   }
 })
-const proArr = [
-  { fillClass: 'fill-pro-1' },
-  { fillClass: 'fill-pro-2' },
-  { fillClass: 'fill-pro-3' },
-  { fillClass: 'fill-pro-4' }
-]
+const emits = defineEmits(['updated'])
+
+const proArr = ref([
+  { value: '1', fillClass: 'fill-pro-1' },
+  { value: '2', fillClass: 'fill-pro-2' },
+  { value: '3', fillClass: 'fill-pro-3' },
+  { value: '4', fillClass: 'fill-pro-4' }
+])
+const selectedPro = ref(props.item?.priority.toString())
 const btnArr = [
   { icon: 'delete', name: '删除任务' }
   // { icon: '创建副本', name: '创建副本' },
   // { icon: 'logout', name: '置顶任务' }
 ]
 const isDatePickerVisible = ref(false)
-const newDate = ref(props.item.time)
+const newDate = ref(moment().format('YYYY-MM-DD HH:MM:SS'))
+/**
+ * 修改alarmTime
+ */
 const onUpdateDate = () => {
-  message('success', '更新时间成功')
   isDatePickerVisible.value = false
-  //todo 改
+  console.log(newDate.value)
+  store.dispatch('task/updateDate', {
+    id: props.item.id,
+    alarmTime: newDate.value
+  })
+  emits('updated')
+}
+/**
+ * 修改优先级
+ * @param {*} item
+ */
+const onUpdatePriority = (item) => {
+  isDatePickerVisible.value = false
+  selectedPro.value = item.value
+  store.dispatch('task/updatePriority', {
+    id: props.item.id,
+    priority: item.value
+  })
+  emits('updated')
+}
+/**
+ * 删除
+ */
+const onItemClick = (item) => {
+  if (item.icon === 'delete') {
+    store.dispatch('task/deleteDate', { id: props.item.id })
+    emits('updated')
+  }
 }
 </script>
 

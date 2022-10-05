@@ -16,7 +16,7 @@
       <p>{{ title }}</p>
     </div>
     <!-- items -->
-    <template v-for="item in items" :key="item.title">
+    <template v-for="item in list" :key="item.title">
       <div
         v-show="!isCollapse"
         class="flex items-center cursor-pointer"
@@ -31,31 +31,38 @@
         <div
           class="w-full text-main-text border-b border-main-border mr-6 flex items-center justify-between pr-2"
         >
-          <p>{{ item.title }}</p>
-          <p class="text-xs">{{ item.time }}</p>
+          <p>{{ item.name }}</p>
+          <p class="text-xs font-semibold">
+            {{ moment(item.startTime).fromNow() }}
+          </p>
         </div>
       </div>
     </template>
+    <!-- 蒙版 -->
     <div
-      v-show="visiable"
-      class="absolute left-0 top-0 w-screen h-screen"
-      @click="() => (visiable = !visiable)"
-    ></div>
-    <context-menu-vue
       v-if="visiable"
+      class="w-screen h-screen fixed top-0 left-0 z-40"
+      @click="visiable = !visiable"
+      @contextmenu.prevent="visiable = !visiable"
+    ></div>
+    <!-- 右键菜单 -->
+    <context-menu-vue
+      v-show="visiable"
       :item="selectedItem"
       :style="menuStyle"
+      @updated="visiable = !visiable"
     ></context-menu-vue>
   </div>
 </template>
 
 <script setup>
-import { getCurrentInstance, ref } from 'vue'
+import moment from 'moment'
+import { computed, getCurrentInstance, ref } from 'vue'
 import contextMenuVue from './contextMenu.vue'
 const instance = getCurrentInstance()
 const proxy = instance.appContext.config.globalProperties
 const props = defineProps({
-  items: {
+  list: {
     type: Array,
     default: null
   },
@@ -67,7 +74,9 @@ const props = defineProps({
     default: 'text-pro-4'
   }
 })
-const selectedItem = ref(props.items && props.items[0])
+const selectedItem = ref(props.list && props.list[0])
+//
+
 /**
  * 鼠标右键打开菜单
  */
@@ -76,6 +85,7 @@ const menuStyle = ref({
   top: 0
 })
 const visiable = ref(false)
+
 const openMenu = (e, item) => {
   console.log(item)
   const { x, y } = e //获取鼠标坐标
@@ -83,8 +93,8 @@ const openMenu = (e, item) => {
   menuStyle.value.top = y + 'px'
   selectedItem.value = item
   visiable.value = !visiable.value
+  console.log(visiable)
 }
-
 /**
  * 是否折叠
  */
@@ -98,9 +108,9 @@ const onTaskClick = (item) => {
   //控制detail显示
 
   proxy.$mitt.emit('detail', {
-    name: item.title,
-    desc: item.desc,
-    time: ``
+    name: item.name,
+    desc: item.description,
+    time: item.alarmTime
   })
 }
 </script>

@@ -24,10 +24,10 @@
         </div>
         <!-- 按钮 -->
         <div class="flex justify-end">
-          <m-button type="info" class="mr-2" @click="onCancelClick">{{
+          <m-button type="primary" class="mr-2" @click="onCancelClick">{{
             cancelText
           }}</m-button>
-          <m-button type="primary" @click="onConfirmClick">{{
+          <m-button type="main" @click="onConfirmClick">{{
             confirmText
           }}</m-button>
         </div>

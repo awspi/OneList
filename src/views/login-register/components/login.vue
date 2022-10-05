@@ -38,7 +38,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import {
   Form as VeeForm,
@@ -46,17 +45,14 @@ import {
   ErrorMessage as VeeErrorMessage
 } from 'vee-validate'
 import { validateUsername, validatePassword } from '../validate'
-import { message } from '@/libs'
-import { getProfile } from '../../../api/user'
 
-const router = useRouter()
 const store = useStore()
 
 /**
  * login表单
  */
 const loginForm = ref({
-  username: 'admin123',
+  username: 'ceshi02',
   password: '123456'
 })
 // 按钮loading状态
@@ -65,7 +61,6 @@ const loading = ref(false)
  * 登录
  */
 const onLogin = async () => {
-  message('success', '登录成功')
   loading.value = true
   //执行登录操作
   try {
@@ -73,7 +68,6 @@ const onLogin = async () => {
   } finally {
     loading.value = false
   }
-  router.push('/')
 }
 </script>
 

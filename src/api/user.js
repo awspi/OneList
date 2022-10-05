@@ -18,7 +18,7 @@ export const registerUser = (data) => {
   return request({
     url: '/user/add',
     method: 'POST',
-    data: data
+    data
   })
 }
 /**

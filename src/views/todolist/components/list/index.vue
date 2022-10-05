@@ -11,6 +11,7 @@
     <collapse-vue v-bind="store.getters.pro_2" class="my-5"> </collapse-vue>
     <collapse-vue v-bind="store.getters.pro_3" class="my-5"> </collapse-vue>
     <collapse-vue v-bind="store.getters.pro_4" class="my-5"> </collapse-vue>
+    {{}}
   </div>
 </template>
 
@@ -18,7 +19,6 @@
 import collapseVue from './collapse.vue'
 import addTaskVue from './addTask.vue'
 import { useStore } from 'vuex'
-import { ref } from 'vue'
 const store = useStore()
 </script>
 

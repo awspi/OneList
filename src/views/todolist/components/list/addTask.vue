@@ -30,6 +30,7 @@
       <!-- bottom -->
       <div class="flex items-center py-1 px-2">
         <!-- left -->
+        <!-- 时间 -->
         <div
           v-for="option in options"
           :key="option.name"
@@ -46,6 +47,16 @@
           ></m-svg-icon>
           <p class="text-sm text-main-gray">{{ option.name }}</p>
         </div>
+        <!-- 优先级 -->
+        <template v-for="item in proArr" :key="item.fillClass">
+          <m-svg-icon
+            name="flag"
+            class="w-7 h-7 p-1 m-1 hover:bg-main-shallow/20 cursor-pointer"
+            :fill-class="item.fillClass"
+            :class="{ 'bg-main-shallow/20': item.value === selectedPro }"
+            @click="selectedPro = item.value"
+          ></m-svg-icon>
+        </template>
         <!-- right -->
         <button
           class="ml-auto text-sm text-center rounded bg-white text-main-text shrink-0 px-4 py-0.5 mr-3 border border-main-gray-2 hover:bg-main-bg/90 duration-150"
@@ -81,11 +92,17 @@
 import { ref } from 'vue'
 import { message } from '@/libs'
 import moment from 'moment'
+import { useStore } from 'vuex'
+const store = useStore()
 // 表单
 const taskForm = ref({
   name: '',
   description: '',
-  alarmTime: ''
+  alarmTime: '',
+  startTime: '',
+  endTime: '',
+  priority: '',
+  state: '0'
 })
 const isVisible = ref(false)
 // 是否折叠
@@ -96,6 +113,14 @@ const options = [
   { name: '明天', fillClass: 'fill-green-700' },
   { name: '其他时间', fillClass: 'fill-main-gray' }
 ]
+//优先级
+const proArr = ref([
+  { value: '1', fillClass: 'fill-pro-1' },
+  { value: '2', fillClass: 'fill-pro-2' },
+  { value: '3', fillClass: 'fill-pro-3' },
+  { value: '4', fillClass: 'fill-pro-4' }
+])
+const selectedPro = ref('1')
 /**
  * 选中的option
  */
@@ -130,19 +155,32 @@ const onOptionsHandler = (option) => {
 }
 //添加任务
 const onAddTaskClick = () => {
-  console.log(taskForm)
   if (!taskForm.value.name) {
     message('error', '任务名不能为空')
     return
   }
+  //默认情况
+  if (selectedOption.value === '今天') {
+    taskForm.value.alarmTime = moment()
+      .startOf('day')
+      .format('YYYY-MM-DD HH:MM:SS')
+  }
+  taskForm.value.startTime = taskForm.value.alarmTime
+  taskForm.value.endTime = taskForm.value.alarmTime
+  taskForm.value.priority = selectedPro.value //优先级
   isCollapse.value = !isCollapse.value
-  message('success', '新建成功')
   //todo api
+  store.dispatch('task/createTask', taskForm.value)
+  //复原
   selectedOption.value = '今天'
   taskForm.value = {
     name: '',
     description: '',
-    alarmTime: moment().startOf('day').format('YYYY-MM-DD HH:MM:SS')
+    alarmTime: '',
+    startTime: '',
+    endTime: '',
+    priority: '',
+    state: '0'
   }
 }
 </script>

@@ -4,8 +4,7 @@ import request from '../utils/request'
 /**
  * 获取所有任务列表
  */
-export const getTaskList = (data) => {
-  console.log(data)
+export const getAllTaskList = () => {
   return request({
     url: '/user/allList'
   })
@@ -13,9 +12,9 @@ export const getTaskList = (data) => {
 /**
  * 新建任务
  */
-export const addTask = (data) => {
+export const newTask = (data) => {
   return request({
-    url: '/user/add',
+    url: '/list/add',
     method: 'POST',
     data
   })
@@ -34,9 +33,10 @@ export const updateTask = (data) => {
 /**
  * 删除信息
  */
-export const deleteTask = (id) => {
+export const deleteTask = (data) => {
   return request({
-    url: '/list/delete' + id,
+    url: '/list/delete',
+    data,
     method: 'DELETE'
   })
 }

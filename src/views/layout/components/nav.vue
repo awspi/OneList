@@ -53,7 +53,8 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-
+import { useStore } from 'vuex'
+const store = useStore()
 const router = useRouter()
 
 const list = [
@@ -71,7 +72,7 @@ const btnArr = [
 const onItemClick = (btn) => {
   switch (btn.name) {
     case '同步':
-      //todo 更新vuex
+      store.dispatch('task/initTaskList')
       break
     case '设置':
       //跳转到setting
@@ -80,6 +81,7 @@ const onItemClick = (btn) => {
     case '退出':
       //todo 更新vuex->清除token
       //跳转到login
+      store.dispatch('user/logout')
       router.push('/login')
       break
     default:

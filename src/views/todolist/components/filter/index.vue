@@ -28,7 +28,9 @@
         :key="item.name"
         class="flex items-center hover:bg-main/20 mx-3 rounded-md py-2 pl-3 mt-3 cursor-pointer"
         :class="{
-          'bg-main/20': item.type === $store.getters.currentFilter
+          'bg-main/20': item.type === $store.getters.currentFilter,
+          ' cursor-not-allowed':
+            item.type === FILTER_TRASH || item.type === FILTER_LOG
         }"
         @click="onFilterCLickHandler(item)"
       >
@@ -54,11 +56,9 @@ import {
   FILTER_LOG
 } from '@/constants'
 import moment from 'moment'
-import { getCurrentInstance, onBeforeMount, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
+import { getAllTaskList } from '../../../../api/task'
 const store = useStore()
-const instance = getCurrentInstance()
-const proxy = instance.appContext.config.globalProperties
 const timeList = [
   { icon: 'filter', title: '所有', type: FILTER_ALL },
   { icon: 'filter', title: '今天', type: FILTER_TODAY },
@@ -70,29 +70,7 @@ const condList = [
   { icon: 'recycle', title: '垃圾桶', type: FILTER_TRASH },
   { icon: 'data-screen', title: '摘要', type: FILTER_LOG }
 ]
-//-----------------------
-// const list1 = {
-//   title: '重要且紧急',
-//   items: [
-//     { title: '吃早饭', time: moment(new Date()).format('YYYY-MM-DD') },
-//     { title: '吃早饭', time: moment(new Date()).format('YYYY-MM-DD') },
-//     { title: '吃晚饭', time: moment(new Date()).format('YYYY-MM-DD') }
-//   ],
-//   titleClass: 'text-pro-1'
-// }
-//-----------------------
-// store.commit('task/setTask', {
-//   key: 'pro_1',
-//   val: {
-//     title: '重要且紧急',
-//     items: [
-//       { title: '吃早饭', time: '2022-10-041' },
-//       { title: '吃早饭', time: '2022-10-04' },
-//       { title: '吃早饭', time: '2022-10-04' }
-//     ],
-//     titleClass: 'text-pro-1'
-//   }
-// })
+
 /**
  * 点击筛选条件
  * @param {*} item
@@ -101,26 +79,77 @@ const onFilterCLickHandler = (item) => {
   console.log(item)
   //保存当前条件 用于高亮
   store.commit('app/setCurrentFilter', item.type)
-  //修改store
-}
-/**
- * ? 默认显示所有任务
- */
+  store.commit('task/setListTitle', item.title)
+  //筛选
+  switch (item.type) {
+    case FILTER_ALL:
+      store.commit('task/clearTaskList')
+      store.dispatch('task/initTaskList')
+      break
+    case FILTER_TODAY:
+      filterByTime(item.type)
+      break
+    case FILTER_WEEK:
+      filterByTime(item.type)
+      break
+    case FILTER_MONTH:
+      filterByTime(item.type)
+      break
+    case FILTER_DONE:
+      filterByState()
+      break
 
-const findTitle = () => {
-  const list = [...timeList, ...condList]
-  const target = list.find((item) => {
-    return item.type === store.getters.currentFilter
-  })
-  console.log(target)
-  return target.title
+    default:
+      break
+  }
 }
+
 /**
  * 根据条件筛选
  */
-const filterByTime = () => {}
-const filterByState = () => {}
-console.log(moment().startOf('day').format('YYYY-MM-DD HH:MM:SS'))
+
+const filterByTime = async (type) => {
+  const res = await getAllTaskList()
+  const list = res.lists
+  // store.commit('task/clearTaskList')
+  let afterList = []
+  //todo 待确定
+  if (type === FILTER_TODAY) {
+    afterList = list.filter((item) => {
+      const time = moment(item.alarmTime)
+      return moment().isSame(time, 'day')
+    })
+  }
+  if (type === FILTER_WEEK) {
+    afterList = list.filter((item) => {
+      const time = moment(item.alarmTime)
+      return moment(time).isBetween(moment().weekday(1), moment().weekday(7))
+    })
+  }
+  if (type === FILTER_MONTH) {
+    afterList = list.filter((item) => {
+      const time = moment(item.alarmTime)
+      return moment(time).isBetween(
+        moment().startOf('month'),
+        moment().endOf('month')
+      )
+    })
+  }
+  console.log(afterList)
+  store.commit('task/clearTaskList')
+  afterList.forEach((item) => {
+    store.commit('task/addTask', { key: `pro_${item.priority}`, val: item })
+  })
+}
+const filterByState = async () => {
+  const res = await getAllTaskList()
+  const list = res.lists
+  const afterList = list.filter((item) => item.state?.toString() === '0')
+  store.commit('task/clearTaskList')
+  afterList.forEach((item) => {
+    store.commit('task/addTask', { key: `pro_${item.priority}`, val: item })
+  })
+}
 </script>
 
 <style lang="scss" scoped></style>

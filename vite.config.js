@@ -31,6 +31,7 @@ export default defineConfig({
       '/api': {
         // 代理请求之后的请求地址
         target: 'http://8.130.38.74:6661/',
+        rewrite: (path) => path.replace(/^\/api/, ''), //重写地址!!!!
         // 跨域
         changeOrigin: true
       }

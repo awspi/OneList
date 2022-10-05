@@ -1,5 +1,6 @@
 import { getProfile, loginUser, registerUser } from '../../api/user'
-
+import { message } from '@/libs'
+import router from '../../router/index'
 export default {
   namespaced: true,
   state: () => {
@@ -21,7 +22,7 @@ export default {
   actions: {
     //注册
     //* 注册完会自动登录
-    async register(context, payload) {
+    async register({ commit, dispatch }, payload) {
       const { password } = payload
       // 注册
       const data = await registerUser({
@@ -29,6 +30,7 @@ export default {
         password: password // ? md5(password) : ''
       })
       console.log(data)
+      dispatch('login', payload)
     },
     //登录
     async login({ commit, dispatch }, payload) {
@@ -37,15 +39,20 @@ export default {
         ...payload,
         password: password // ? md5(password) : ''
       })
-      console.log(data)
-      // commit('setToken', data.token)
-      // dispatch('profile')
+      if (data.state) {
+        message('success', '登录成功')
+        commit('setToken', data.token)
+        dispatch('profile')
+        router.push('/')
+      } else {
+        message('error', '登录失败')
+      }
     },
     //获取用户信息
     async profile({ commit }) {
       const data = await getProfile()
       console.log(data)
-      commit('setUserInfo', data)
+      commit('setUserInfo', data.user)
     },
     //退出用户
     logout({ commit }) {
