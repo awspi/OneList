@@ -24,14 +24,15 @@
         @contextmenu.prevent="openMenu($event, item)"
       >
         <m-svg-icon
-          name="circle"
+          :name="item.state === 1 ? 'done' : 'circle'"
           :fill-class="titleClass"
-          class="w-8 h-8 p-1.5 duration-150 mr-0.5 ml-3"
+          class="w-8 h-8 p-1.5 duration-150 mr-0.5 ml-3 hover:scale-125"
+          @click="changeState(item)"
         ></m-svg-icon>
         <div
-          class="w-full text-main-text border-b border-main-border mr-6 flex items-center justify-between pr-2"
+          class="w-full text-main-text my-2 border-b border-main-border mr-3 flex items-center justify-between pr-2"
         >
-          <p>{{ item.name }}</p>
+          <p class="text-base">{{ item.name }}</p>
           <p class="text-xs font-semibold">
             {{ moment(item.startTime).fromNow() }}
           </p>
@@ -58,7 +59,10 @@
 <script setup>
 import moment from 'moment'
 import { computed, getCurrentInstance, ref } from 'vue'
+import { useStore } from 'vuex'
+
 import contextMenuVue from './contextMenu.vue'
+const store = useStore()
 const instance = getCurrentInstance()
 const proxy = instance.appContext.config.globalProperties
 const props = defineProps({
@@ -111,6 +115,15 @@ const onTaskClick = (item) => {
     name: item.name,
     desc: item.description,
     time: item.alarmTime
+  })
+}
+/**
+ * 修改完成状态
+ */
+const changeState = (item) => {
+  store.dispatch('task/changeState', {
+    id: item.id,
+    state: !item.state || item.state === 0 ? 1 : 0 //state不为空或者==0则制为1 其他情况设置为0
   })
 }
 </script>

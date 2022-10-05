@@ -81,9 +81,17 @@ export default {
     },
     async deleteDate({ commit, dispatch }, payload) {
       confirm('提示', '确定要删除吗').then(async () => {
-        const res = await deleteTask(payload)
+        await deleteTask(payload)
         message('success', '删除成功')
       })
+    },
+    async changeState({ commit, dispatch }, payload) {
+      const res = await updateTask(payload)
+      console.log(res)
+      dispatch('initTaskList')
+      if (res.state) {
+        message('success', '修改任务状态成功')
+      }
     }
   }
 }
