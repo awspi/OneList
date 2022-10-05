@@ -1,6 +1,6 @@
 import { defineAsyncComponent } from 'vue'
-// export { confirm } from './confirm/index'
-// export { message } from './message/index'
+export { confirm } from './confirm/index'
+export { message } from './message/index'
 export default {
   //?vite通用组件自动化注册
   //*vite的glob导入功能->在系统中导入多个模块

@@ -1,7 +1,7 @@
 <template>
   <div class="h-screen w-screen flex">
-    <nav-vue class="w-[8%]"></nav-vue>
-    <main-vue class="w-[92%]"></main-vue>
+    <nav-vue class="w-[120px] flex-shrink-0"></nav-vue>
+    <main-vue class="w-full"></main-vue>
   </div>
 </template>
 

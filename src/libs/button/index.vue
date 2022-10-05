@@ -1,6 +1,6 @@
 <template>
   <button
-    class="text-sm text-center rounded duration-150 flex justify-center items-center"
+    class="text-sm text-center rounded-md duration-150 flex justify-center items-center m-0.5 border border-main-gray-2"
     :class="[
       typeEnum[type],
       sizeEnum[sizeKey].button,
@@ -33,30 +33,28 @@
 <script>
 //type 可选项:表示按钮风格
 const typeEnum = {
-  primary:
-    'text-white  bg-zinc-800 dark:bg-zinc-900 hover:bg-zinc-900 dark:hover:bg-zinc-700 active:bg-zinc-800 dark:active:bg-zinc-700',
-  main: 'text-white bg-blue-700 dark:bg-blue-700 hover:bg-blue-600  dark:hover:bg-blue-600 ',
-  info: 'text-zinc-800 dark:text-zinc-300 bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600  active:bg-zinc-200 dark:active:bg-zinc-700 '
+  primary: 'text-main-text  bg-white  hover:bg-main-bg/90',
+  main: 'text-white bg-main hover:bg-main/70 '
 }
 //size 可选项:表示按钮的大小.区分文字按钮和icon按钮
 const sizeEnum = {
   //文字按钮
   default: {
-    button: 'w-8 h-4 text-base',
+    button: 'h-7 w-14 text-base',
     icon: ''
   },
   small: {
-    button: 'w-7 h-3 text-base',
+    button: 'px-3.5 py-0.5 text-base',
     icon: ''
   },
   //icon按钮
   'icon-default': {
-    button: 'w-4 h-4',
-    icon: 'w-1.5 h-1.5'
+    button: 'w-6 h-6',
+    icon: 'w-3 h-3'
   },
   'icon-small': {
-    button: 'w-3 h-3',
-    icon: 'w-1.5 h-1.5'
+    button: 'w-6 h-6',
+    icon: 'w-3 h-3'
   }
 }
 const EMITS_CLICK = 'click'

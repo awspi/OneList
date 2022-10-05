@@ -1,6 +1,7 @@
 <template>
-  <vee-form class="flex flex-col items-center">
+  <vee-form class="flex flex-col items-center" @submit="onRegister">
     <vee-field
+      v-model="regForm.username"
       type="text"
       class="outline-none rounded px-2 w-80 h-14 focus:bg-white focus:border-blue-500/70 bg-gray-200 border text-lg active: text-gray-800 placeholder-gray-400 focus:outline-none"
       name="username"
@@ -13,6 +14,7 @@
       name="username"
     />
     <vee-field
+      v-model="regForm.password"
       type="password"
       class="outline-none rounded px-2 mt-6 w-80 h-14 focus:bg-white focus:border-blue-500/70 bg-gray-200 border text-lg active: text-gray-800 placeholder-gray-400 focus:outline-none duration-300"
       name="password"
@@ -25,6 +27,7 @@
       name="password"
     />
     <vee-field
+      v-model="regForm.confirmPassword"
       type="password"
       class="outline-none rounded px-2 mt-6 w-80 h-14 focus:bg-white focus:border-blue-500/70 bg-gray-200 border text-lg active: text-gray-800 placeholder-gray-400 focus:outline-none duration-300"
       placeholder="请重复密码"
@@ -86,26 +89,20 @@ const loading = ref(false)
 /**
  * 用户注册行为
  */
-const onLogin = async () => {
+const onRegister = async () => {
   loading.value = true
-  console.log(regForm)
   const payload = {
     username: regForm.value.username,
     password: regForm.value.password
   }
   //执行注册操作
   try {
-    await store.dispatch('user/register', {
-      ...payload
-    })
+    await store.dispatch('user/register', payload)
     // 注册成功，触发登录
-    await store.dispatch('user/login', {
-      ...payload
-    })
+    await store.dispatch('user/login', payload)
   } finally {
     loading.value = false
   }
-  router.push('/')
 }
 </script>
 

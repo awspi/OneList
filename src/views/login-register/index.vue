@@ -48,13 +48,6 @@
 import { ref } from 'vue'
 import loginVue from './components/login.vue'
 import registerVue from './components/register.vue'
-/**
- * 滑块动画
- */
-const sliderStyle = ref({
-  transform: 'translateX(0px)',
-  width: '167px'
-})
 </script>
 
 <style lang="scss" scoped></style>

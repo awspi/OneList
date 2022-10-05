@@ -1,8 +1,14 @@
 export default {
   namespaced: true,
   state: () => {
-    return {}
+    return {
+      currentFilter: ''
+    }
   },
-  mutations: {},
+  mutations: {
+    setCurrentFilter(state, newVal) {
+      state.currentFilter = newVal
+    }
+  },
   actions: {}
 }
