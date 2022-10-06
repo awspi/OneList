@@ -34,7 +34,13 @@
         >
           <p class="text-base">{{ item.name }}</p>
           <p class="text-xs font-semibold">
-            {{ moment(item.startTime).fromNow() }}
+            {{
+              item.startTime !== item.endTime
+                ? `${moment(item.startTime).format(
+                    'YY-MM-DD HH:MM'
+                  )}  ~  ${moment(item.endTime).format('YY-MM-DD HH:MM')}`
+                : `${moment(item.startTime).format('YY-MM-DD HH:MM')}`
+            }}
           </p>
         </div>
       </div>
@@ -112,9 +118,10 @@ const onTaskClick = (item) => {
   //控制detail显示
 
   proxy.$mitt.emit('detail', {
+    id: item.id,
     name: item.name,
     desc: item.description,
-    time: item.alarmTime
+    time: `${item.startTime}  ~  ${item.endTime}`
   })
 }
 /**

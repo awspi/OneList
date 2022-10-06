@@ -1,5 +1,5 @@
 import { PRO_1, PRO_2, PRO_3, PRO_4 } from '@/constants'
-import { deleteTask, getAllTaskList, newTask, updateTask } from '../../api/task'
+import { deleteTask, getAllTaskList, newTask, updateTask } from '@/api/task'
 import { message, confirm } from '@/libs'
 export default {
   namespaced: true,
@@ -63,7 +63,13 @@ export default {
       }
     },
     async updateTaskInfo({ commit, dispatch }, payload) {
-      const res = await updateTask()
+      const res = await updateTask(payload)
+      if (res.state) {
+        message('success', '修改任务成功')
+        dispatch('initTaskList')
+      } else {
+        message('error', '修改失败')
+      }
     },
     async updatePriority({ commit, dispatch }, payload) {
       console.log(payload)
@@ -76,7 +82,7 @@ export default {
     async updateDate({ commit, dispatch }, payload) {
       const res = await updateTask(payload)
       if (res.state) {
-        message('success', '修改提醒时间成功')
+        message('success', '修改时间成功')
       }
     },
     async deleteDate({ commit, dispatch }, payload) {

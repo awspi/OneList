@@ -4,21 +4,36 @@
   >
     <!-- 日期 -->
     <span class="text-sm">日期</span>
-    <div class="flex items-center justify-between">
-      <span class="text-main-text-blue text-sm flex-shrink-0">{{
-        moment(item?.alarmTime).format('YY-MM-DD HH:MM')
-      }}</span>
+    <div class="flex justify-evenly items-stretch">
+      <div class="flex flex-col flex-shrink-0">
+        <div class="flex">
+          <p class="text-xs mr-1">开始时间</p>
+          <flat-pickr
+            v-model="newStartTime"
+            :config="config"
+            placeholder="开始时间"
+          ></flat-pickr>
+        </div>
+        <div class="flex">
+          <p class="text-xs mr-1">结束时间</p>
+          <flat-pickr
+            v-model="newEndTime"
+            :config="config"
+            placeholder="结束时间"
+          ></flat-pickr>
+        </div>
+      </div>
       <!-- 修改时间 -->
       <div
-        class="flex justify-center items-center shrink-0 bg-main-bg-2 rounded-md mx-2 px-0.5 py-0.5 hover:scale-95 duration-150 cursor-pointer"
-        @click="() => (isDatePickerVisible = !isDatePickerVisible)"
+        class="flex justify-center items-center shrink-0 bg-main-bg-2 rounded-md px-0.5 py-0.5 hover:scale-95 duration-150 cursor-pointer"
+        @click="onUpdateDate"
       >
         <m-svg-icon
           name="date"
           fill-class="fill-main-gray"
           class="w-6 h-6"
         ></m-svg-icon>
-        <p class="text-sm text-main-gray">修改时间</p>
+        <p class="text-sm text-main-gray">修改</p>
       </div>
     </div>
     <!-- 分隔线 -->
@@ -53,12 +68,6 @@
       ></m-svg-icon>
       <span class="text-main-gray w-full text-sm text-left"> 删除任务 </span>
     </div>
-    <m-date-picker
-      v-show="isDatePickerVisible"
-      v-model="newDate"
-      class="absolute left-[101%] bottom-[0%] w-60"
-      @select="onUpdateDate"
-    ></m-date-picker>
   </div>
 </template>
 
@@ -66,6 +75,9 @@
 import moment from 'moment'
 import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
+import flatPickr from 'vue-flatpickr-component' //引入flatpickr组件
+import 'flatpickr/dist/flatpickr.css' //引入他的css样式
+import { Mandarin } from 'flatpickr/dist/l10n/zh.js' //引入普通话语言包
 const store = useStore()
 const props = defineProps({
   item: {
@@ -88,16 +100,27 @@ const btnArr = [
   // { icon: 'logout', name: '置顶任务' }
 ]
 const isDatePickerVisible = ref(false)
-const newDate = ref(moment().format('YYYY-MM-DD HH:MM:SS'))
+const newStartTime = ref(props.item.startTime)
+const newEndTime = ref(props.item.endTime)
+const config = {
+  wrap: true,
+  altInput: true,
+  altFormat: 'y-n-j H:n', //选择时显示的时间
+  enableTime: true, //选择小时分种
+  defaultHour: 8, //默认8点
+  time_24hr: true, //时间24小时制
+  locale: Mandarin, //中文
+  altInputClass: ' text-xs w-20'
+}
 /**
- * 修改alarmTime
+ * 修改Time
  */
 const onUpdateDate = () => {
   isDatePickerVisible.value = false
-  console.log(newDate.value)
   store.dispatch('task/updateDate', {
     id: props.item.id,
-    alarmTime: newDate.value
+    startTime: newStartTime.value + ':00',
+    endTime: newEndTime.value + ':00'
   })
   emits('updated')
 }

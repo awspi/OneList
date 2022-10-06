@@ -57,7 +57,7 @@ import {
 } from '@/constants'
 import moment from 'moment'
 import { useStore } from 'vuex'
-import { getAllTaskList } from '../../../../api/task'
+import { getAllTaskList } from '@/api/task'
 const store = useStore()
 const timeList = [
   { icon: 'filter', title: '所有', type: FILTER_ALL },
@@ -111,13 +111,13 @@ const onFilterCLickHandler = (item) => {
 const filterByTime = async (type) => {
   const res = await getAllTaskList()
   const list = res.lists
-  // store.commit('task/clearTaskList')
   let afterList = []
-  //todo 待确定
   if (type === FILTER_TODAY) {
+    //今日任务
     afterList = list.filter((item) => {
-      const time = moment(item.alarmTime)
-      return moment().isSame(time, 'day')
+      return item.startTime !== item.endTime
+        ? moment().isBetween(item.startTime, item.endTime)
+        : moment().isSame(item.startTime, 'day')
     })
   }
   if (type === FILTER_WEEK) {

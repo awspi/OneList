@@ -6,6 +6,8 @@
 </template>
 
 <script setup>
+import moment from 'moment'
+
 console.log('import.url', import.meta.env.VITE_BASE_API)
 </script>
 

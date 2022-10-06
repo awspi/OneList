@@ -13,7 +13,13 @@
           color="#FECE00"
           @click="onCollapseHandler"
         ></m-svg-icon>
-        <div class="h-8 mx-6 w-[1px] bg-main-gray-2"></div>
+        <div class="h-8 mx-3 w-[1px] bg-main-gray-2"></div>
+        <m-svg-icon
+          :name="editable ? 'save' : 'edit'"
+          class="w-8 h-8 p-0.5 mr-4 hover:scale-105 cursor-pointer duration-150"
+          fill-class="fill-main-text-blue"
+          @click="onEdit"
+        ></m-svg-icon>
         <m-svg-icon
           name="alarm"
           class="w-8 h-8 p-0.5 mr-4 cursor-pointer"
@@ -28,15 +34,27 @@
       <div class="p-9">
         <!-- title -->
         <div
-          class="text-2xl pb-1 text-main-text font-bold border-b whitespace-nowrap overflow-x-hidden overflow-ellipsis"
+          class="h-full text-2xl pb-1 text-main-text font-bold border-b whitespace-nowrap overflow-x-hidden overflow-ellipsis"
         >
-          {{ taskName }}
+          <input
+            v-model="taskName"
+            :readonly="editable ? false : 'readonly'"
+            type=" text"
+            class="w-full outline-0 py-0.5 px-2 rounded-md"
+            :class="[editable ? 'bg-main-shallow/20' : 'bg-transparent']"
+          />
         </div>
         <!-- desc -->
         <div
           class="text-main-gray py-3 tracking-wide overflow-x-hidden overflow-ellipsis overflow-y-hidden h"
         >
-          {{ taskDesc }}
+          <textarea
+            v-model="taskDesc"
+            rows="20"
+            :readonly="editable ? false : 'readonly'"
+            class="duration-100 outline-0 py-0.5 px-2 pt-2 text-lg rounded-sm w-full h-full resize-none"
+            :class="[editable ? 'bg-main-shallow/20' : 'bg-transparent']"
+          ></textarea>
         </div>
       </div>
     </div>
@@ -46,6 +64,9 @@
 <script setup>
 import moment from 'moment'
 import { getCurrentInstance, onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
+import { message } from '../../../../libs'
+const editable = ref(false)
 // 里面的字符可以根据自己的需要进行调整
 moment.locale('zh-cn', {
   months:
@@ -144,6 +165,7 @@ moment.locale('zh-cn', {
     doy: 4 // The week that contains Jan 4th is the first week of the year.
   }
 })
+const taskId = ref(0)
 const taskName = ref('')
 const taskDesc = ref('')
 const alarmTime = ref('')
@@ -163,18 +185,31 @@ const onCollapseHandler = () => {
 const instance = getCurrentInstance()
 const proxy = instance.appContext.config.globalProperties
 onMounted(() => {
-  proxy.$mitt.on('detail', ({ name, desc, time }) => {
+  proxy.$mitt.on('detail', ({ name, desc, time, id }) => {
     isVisible.value = false
     setTimeout(() => {
       isVisible.value = true
+      taskId.value = id
       taskName.value = name
       taskDesc.value = desc
-      alarmTime.value = `${moment(time).fromNow()}  ${moment(time).format(
-        'll'
-      )}`
+      alarmTime.value = time
     }, 100)
   })
 })
+const store = useStore()
+const onEdit = () => {
+  if (editable.value) {
+    store.dispatch('task/updateTaskInfo', {
+      id: taskId.value,
+      name: taskName.value,
+      description: taskDesc.value
+    })
+    editable.value = false
+  } else {
+    message('success', '可以修改任务内容了~')
+    editable.value = true
+  }
+}
 </script>
 
 <style lang="scss" scoped>
