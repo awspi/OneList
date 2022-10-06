@@ -71,7 +71,6 @@ export default {
     // 注销用户
     async cancellation({ dispatch }) {
       const res = await cancellationProfile()
-      console.log(res)
       await dispatch('logout')
     }
   }

@@ -82,6 +82,7 @@ export default {
     async updateDate({ commit, dispatch }, payload) {
       const res = await updateTask(payload)
       if (res.state) {
+        dispatch('initTaskList')
         message('success', '修改时间成功')
       }
     },

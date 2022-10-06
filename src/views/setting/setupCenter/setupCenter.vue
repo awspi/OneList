@@ -4,11 +4,19 @@
       <p class="sc-title">账号设置</p>
       <div class="avatar">
         <img
-          src="https://img9.vilipix.com/picture/logo/2022/05/01/19/30/22652455_da3716e7a44e66b9c49b17f3fec20438_170.jpg"
+          :src="
+            $store.getters.userInfo.img ||
+            'https://img9.vilipix.com/picture/logo/2022/05/01/19/30/22652455_da3716e7a44e66b9c49b17f3fec20438_170.jpg'
+          "
           class="avatar-img"
           alt=""
         />
-        <p class="avatar-name"><span>洛依尘</span></p>
+        <p class="avatar-name">
+          <span>{{ $store.getters.userInfo.nickname }}</span>
+          <span class="text-sm ml-2">{{
+            `(${$store.getters.userInfo.username})`
+          }}</span>
+        </p>
       </div>
     </div>
     <div class="sc-content">
@@ -29,14 +37,14 @@
                   class="change-input"
                   type="text"
                   placeholder="当前密码"
-                  @change="chagneInput"
+                  @change="changeInput"
                 />
                 <input
                   v-model="passwordChange.newPassword"
                   class="change-input"
                   type="text"
                   placeholder="新密码"
-                  @change="chagneInput"
+                  @change="changeInput"
                 />
               </div>
               <div class="pw-bnt-box">
@@ -77,8 +85,7 @@
         </div>
       </div>
       <div class="info-title info-space">注销账号</div>
-      <div class="cancellation" @click="dialogOn">注销账号</div>
-      <m-dialog :model-value="dialogSwith"></m-dialog>
+      <div class="cancellation" @click="cancellation">注销账号</div>
     </div>
   </div>
 </template>
@@ -86,12 +93,11 @@
 <script setup>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
-
+import { confirm, message } from '@/libs'
 const store = useStore()
 
 let pwChange = ref(false)
 let pwFinish = ref(false)
-let dialogSwith = ref(false)
 
 let passwordChange = ref({
   oldPassword: '',
@@ -103,7 +109,7 @@ const changePw = () => {
   pwChange.value = !pwChange.value
 }
 // 检查是否账号密码都输入了,改变css
-const chagneInput = () => {
+const changeInput = () => {
   if (passwordChange.value.oldPassword && passwordChange.value.newPassword) {
     pwFinish.value = true
   } else {
@@ -115,20 +121,18 @@ const confirmPw = () => {
   console.log('提交')
 }
 
-// 打开dialog
-const dialogOn = () => {
-  dialogSwith.value = true
-  console.log(dialogSwith.value)
-  cancellation()
-}
-
 // 注销账号
 const cancellation = async () => {
-  try {
-    await store.dispatch('user/cancellation')
-  } catch (error) {
-    console.log(error)
-  }
+  confirm('提示', '确定要注销吗').then(async () => {
+    try {
+      const res = await store.dispatch('user/cancellation')
+      if (res.state) {
+        message('success', '注销成功')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  })
 }
 </script>
 <style scoped>
