@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed px-2 w-56 py-1 bg-white text-main-gray border rounded-md z-50"
+    class="fixed px-2 w-60 py-1 bg-white text-main-gray border rounded-md z-50"
   >
     <!-- 日期 -->
     <span class="text-sm">日期</span>
@@ -81,7 +81,6 @@ import { Mandarin } from 'flatpickr/dist/l10n/zh.js' //引入普通话语言包
 const store = useStore()
 const props = defineProps({
   item: {
-    type: Object,
     required: true
   }
 })
@@ -100,8 +99,8 @@ const btnArr = [
   // { icon: 'logout', name: '置顶任务' }
 ]
 const isDatePickerVisible = ref(false)
-const newStartTime = ref(props.item.startTime)
-const newEndTime = ref(props.item.endTime)
+const newStartTime = ref(props.item?.startTime)
+const newEndTime = ref(props.item?.endTime)
 const config = {
   wrap: true,
   altInput: true,
@@ -110,7 +109,7 @@ const config = {
   defaultHour: 8, //默认8点
   time_24hr: true, //时间24小时制
   locale: Mandarin, //中文
-  altInputClass: ' text-xs w-20'
+  altInputClass: ' text-xs w-24'
 }
 /**
  * 修改Time
