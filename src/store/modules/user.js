@@ -1,4 +1,9 @@
-import { getProfile, loginUser, registerUser } from '../../api/user'
+import {
+  getProfile,
+  loginUser,
+  registerUser,
+  cancellationProfile
+} from '../../api/user'
 import { message } from '@/libs'
 import router from '../../router/index'
 export default {
@@ -62,6 +67,12 @@ export default {
       commit('setUserInfo', '')
       //refresh page
       location.reload()
+    },
+    // 注销用户
+    async cancellation({ dispatch }) {
+      const res = await cancellationProfile()
+      console.log(res)
+      await dispatch('logout')
     }
   }
 }
