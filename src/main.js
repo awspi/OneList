@@ -8,6 +8,7 @@ import router from './router' //router
 import './assets/fonts/Alibab.css' //引用阿里巴巴字体
 import mitt from 'mitt' //
 import './permission' //路由守卫
+import 'animate.css/animate.min.css' //引入animate
 import moment from 'moment'
 moment.locale('zh-cn', {
   months:

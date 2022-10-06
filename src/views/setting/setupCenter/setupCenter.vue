@@ -15,7 +15,43 @@
       <p class="sc-title">账号信息</p>
       <div class="info-title info-space">密码</div>
       <div class="passworld info-space">
-        <a class="passworld-change-bnt">更改密码</a>
+        <transition name="pwBlock" mode="out-in">
+          <template v-if="!pwChange">
+            <div>
+              <a class="passworld-change-bnt" @click="changePw">更改密码</a>
+            </div>
+          </template>
+          <template v-else>
+            <div class="pw-change-box">
+              <div class="changepw-box">
+                <input
+                  v-model="passwordChange.oldPassword"
+                  class="change-input"
+                  type="text"
+                  placeholder="当前密码"
+                  @change="chagneInput"
+                />
+                <input
+                  v-model="passwordChange.newPassword"
+                  class="change-input"
+                  type="text"
+                  placeholder="新密码"
+                  @change="chagneInput"
+                />
+              </div>
+              <div class="pw-bnt-box">
+                <button class="pw-bnt" @click="changePw">取消</button>
+                <button
+                  class="pw-bnt pw-determine"
+                  :class="pwFinish ? 'pwFinish' : ''"
+                  @click="confirmPw"
+                >
+                  确定
+                </button>
+              </div>
+            </div>
+          </template>
+        </transition>
       </div>
       <div class="info-title info-space">第三方账号绑定</div>
       <div class="bind info-space">
@@ -41,14 +77,58 @@
         </div>
       </div>
       <div class="info-title info-space">注销账号</div>
-      <div class="cancellation">注销账号</div>
+      <div class="cancellation" @click="dialogOn">注销账号</div>
+      <m-dialog :model-value="dialogSwith"></m-dialog>
     </div>
   </div>
 </template>
 
 <script setup>
-const data = {
-  passworld: 'XW*******58'
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+let pwChange = ref(false)
+let pwFinish = ref(false)
+let dialogSwith = ref(false)
+
+let passwordChange = ref({
+  oldPassword: '',
+  newPassword: ''
+})
+
+// 修改密码页面切换
+const changePw = () => {
+  pwChange.value = !pwChange.value
+}
+// 检查是否账号密码都输入了,改变css
+const chagneInput = () => {
+  if (passwordChange.value.oldPassword && passwordChange.value.newPassword) {
+    pwFinish.value = true
+  } else {
+    pwFinish.value = false
+  }
+}
+// 确定修改
+const confirmPw = () => {
+  console.log('提交')
+}
+
+// 打开dialog
+const dialogOn = () => {
+  dialogSwith.value = true
+  console.log(dialogSwith.value)
+  cancellation()
+}
+
+// 注销账号
+const cancellation = async () => {
+  try {
+    await store.dispatch('user/cancellation')
+  } catch (error) {
+    console.log(error)
+  }
 }
 </script>
 <style scoped>
@@ -108,6 +188,48 @@ const data = {
   cursor: pointer;
 }
 
+.pw-change-box {
+  display: flex;
+  flex-direction: column;
+}
+.changepw-box {
+  display: flex;
+  flex-direction: column;
+}
+.change-input {
+  outline-style: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 2.5rem;
+  width: 15rem;
+  margin-bottom: 0.5rem;
+  padding: 0 0.5rem;
+}
+.change-input:focus {
+  border: 1px solid #147ad9;
+}
+.pw-bnt-box {
+  display: flex;
+}
+.pw-bnt {
+  height: 2.5rem;
+  width: 7rem;
+  border-radius: 5px;
+  font-size: 0.8em;
+  border: 1px solid #ccc;
+}
+
+.pw-determine {
+  margin-left: 1rem;
+  color: #eee;
+  pointer-events: none;
+  background: rgba(64, 149, 229, 0.5);
+}
+.pwFinish {
+  pointer-events: auto;
+  background: rgba(64, 149, 229, 1);
+}
+
 .bind {
   display: flex;
   flex-direction: column;
@@ -126,5 +248,17 @@ const data = {
   font-size: 0.8rem;
   color: #d23333;
   cursor: pointer;
+}
+
+/* 动画过度 */
+.pwBlock-enter-from,
+.pwBlock-leave-to {
+  opacity: 0;
+}
+
+.pwBlock-enter-active,
+.pwBlock-leave-active {
+  transition: opacity 0.5s ease;
+  /* animation: backOutLeft 1s; */
 }
 </style>

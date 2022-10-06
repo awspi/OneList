@@ -39,3 +39,12 @@ export const putProfile = (data) => {
     method: 'PUT'
   })
 }
+/**
+ * 注销用户信息
+ */
+export const cancellationProfile = () => {
+  return request({
+    url: '/user/delete',
+    method: 'DELETE'
+  })
+}
