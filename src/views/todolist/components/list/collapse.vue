@@ -114,15 +114,19 @@ const isCollapse = ref(false)
  * 任务被点击 打开detail
  */
 const onTaskClick = (item) => {
-  console.log(item)
   //控制detail显示
-
-  proxy.$mitt.emit('detail', {
-    id: item.id,
-    name: item.name,
-    desc: item.description,
-    time: `${item.startTime}  ~  ${item.endTime}`
-  })
+  if (store.getters.detailTaskId === item.id) {
+    //如果相同就不重复打开detail
+    return
+  }
+  store.commit('app/setDetailTaskId', item.id)
+  if (item)
+    proxy.$mitt.emit('detail', {
+      id: item.id,
+      name: item.name,
+      desc: item.description,
+      time: `${item.startTime}  ~  ${item.endTime}`
+    })
 }
 /**
  * 修改完成状态

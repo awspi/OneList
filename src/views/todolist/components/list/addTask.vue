@@ -106,7 +106,7 @@ const taskForm = ref({
   alarmTime: '',
   startTime: moment().format('YYYY-MM-DD HH:MM'),
   endTime: moment().format('YYYY-MM-DD HH:MM'),
-  priority: '',
+  priority: 1,
   state: '0'
 })
 
@@ -144,7 +144,7 @@ const onAddTaskClick = () => {
     alarmTime: '',
     startTime: moment().format('YYYY-MM-DD HH:MM'),
     endTime: moment().format('YYYY-MM-DD HH:MM'),
-    priority: '',
+    priority: 1,
     state: '0'
   }
 }

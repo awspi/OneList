@@ -7,11 +7,14 @@
     <!-- addtask -->
     <add-task-vue></add-task-vue>
     <!-- collapse -->
-    <collapse-vue v-bind="store.getters.pro_1" class="my-5"> </collapse-vue>
-    <collapse-vue v-bind="store.getters.pro_2" class="my-5"> </collapse-vue>
-    <collapse-vue v-bind="store.getters.pro_3" class="my-5"> </collapse-vue>
-    <collapse-vue v-bind="store.getters.pro_4" class="my-5"> </collapse-vue>
-    {{}}
+    <collapse-vue v-bind="store.getters.task_group_first" class="my-5">
+    </collapse-vue>
+    <collapse-vue v-bind="store.getters.task_group_second" class="my-5">
+    </collapse-vue>
+    <collapse-vue v-bind="store.getters.task_group_third" class="my-5">
+    </collapse-vue>
+    <collapse-vue v-bind="store.getters.task_group_fourth" class="my-5">
+    </collapse-vue>
   </div>
 </template>
 

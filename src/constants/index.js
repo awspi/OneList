@@ -8,7 +8,14 @@ export const FILTER_DONE = 'filter_done'
 export const FILTER_TRASH = 'filter_trash'
 export const FILTER_LOG = 'filter_log'
 //
-export const PRO_1 = '重要且紧急'
-export const PRO_2 = '不重要但紧急'
-export const PRO_3 = '重要但不紧急'
-export const PRO_4 = '不重要且不紧急'
+export const PRIORITY_FIRST = '重要且紧急'
+export const PRIORITY_SECOND = '不重要但紧急'
+export const PRIORITY_THIRD = '重要但不紧急'
+export const PRIORITY_FOURTH = '不重要且不紧急'
+//对应表
+export const TASK_GROUP_RELATIONS = {
+  task_group_first: 1,
+  task_group_second: 2,
+  task_group_third: 3,
+  task_group_fourth: 4
+}

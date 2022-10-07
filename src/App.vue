@@ -5,14 +5,6 @@
   </div>
 </template>
 
-<script setup>
-import moment from 'moment'
+<script setup></script>
 
-console.log('import.url', import.meta.env.VITE_BASE_API)
-</script>
-
-<style scoped>
-.body {
-  font-family: AliFont;
-}
-</style>
+<style scoped></style>

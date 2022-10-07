@@ -138,7 +138,7 @@ const filterByTime = async (type) => {
   console.log(afterList)
   store.commit('task/clearTaskList')
   afterList.forEach((item) => {
-    store.commit('task/addTask', { key: `pro_${item.priority}`, val: item })
+    store.commit('task/addTask', { priority: item.priority, taskItem: item })
   })
 }
 const filterByState = async () => {
@@ -147,7 +147,7 @@ const filterByState = async () => {
   const afterList = list.filter((item) => item.state?.toString() === '1')
   store.commit('task/clearTaskList')
   afterList.forEach((item) => {
-    store.commit('task/addTask', { key: `pro_${item.priority}`, val: item })
+    store.commit('task/addTask', { priority: item.priority, taskItem: item })
   })
 }
 </script>

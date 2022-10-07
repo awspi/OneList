@@ -92,7 +92,7 @@ const proArr = ref([
   { value: '3', fillClass: 'fill-pro-3' },
   { value: '4', fillClass: 'fill-pro-4' }
 ])
-const selectedPro = ref(props.item?.priority.toString())
+const selectedPro = ref(props.item?.priority?.toString())
 const btnArr = [
   { icon: 'delete', name: '删除任务' }
   // { icon: '创建副本', name: '创建副本' },
@@ -109,7 +109,7 @@ const config = {
   defaultHour: 8, //默认8点
   time_24hr: true, //时间24小时制
   locale: Mandarin, //中文
-  altInputClass: ' text-xs w-24'
+  altInputClass: ' text-xs w-24 text-main'
 }
 /**
  * 修改Time
@@ -131,8 +131,8 @@ const onUpdatePriority = (item) => {
   isDatePickerVisible.value = false
   selectedPro.value = item.value
   store.dispatch('task/updatePriority', {
-    id: props.item.id,
-    priority: item.value
+    ...props.item,
+    afterPriority: item.value
   })
   emits('updated')
 }
@@ -141,7 +141,7 @@ const onUpdatePriority = (item) => {
  */
 const onItemClick = (item) => {
   if (item.icon === 'delete') {
-    store.dispatch('task/deleteDate', { id: props.item.id })
+    store.dispatch('task/deleteTaskItem', { id: props.item.id })
     emits('updated')
   }
 }
