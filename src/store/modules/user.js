@@ -56,7 +56,7 @@ export default {
     //获取用户信息
     async profile({ commit }) {
       const data = await getProfile()
-      console.log(data)
+      console.log(data.user)
       commit('setUserInfo', data.user)
     },
     //退出用户
@@ -71,6 +71,7 @@ export default {
     // 注销用户
     async cancellation({ dispatch }) {
       const res = await cancellationProfile()
+      console.log(res)
       await dispatch('logout')
     }
   }

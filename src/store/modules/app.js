@@ -3,7 +3,8 @@ export default {
   state: () => {
     return {
       currentFilter: '',
-      detailTaskId: ''
+      detailTaskId: '',
+      themecolor: ''
     }
   },
   mutations: {
@@ -12,6 +13,10 @@ export default {
     },
     setDetailTaskId(state, newVal) {
       state.detailTaskId = newVal
+    },
+    setThemecolor(state, newVal) {
+      state.themecolor = newVal
+      console.log(state.themecolor)
     }
   },
   actions: {}

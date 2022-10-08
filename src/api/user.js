@@ -48,3 +48,11 @@ export const cancellationProfile = () => {
     method: 'DELETE'
   })
 }
+// 验证密码是否正确
+export const verificationPassword = (data) => {
+  return request({
+    url: '/user/safe',
+    method: 'POST',
+    data: data
+  })
+}
