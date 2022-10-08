@@ -1,11 +1,14 @@
 <template>
   <div
-    class="h-screen pt-4 px-7 text-main-text border-r border-main-border overflow-y-auto"
+    class="h-screen mt-4 px-7 text-main-text border-r border-main-border overflow-y-auto"
   >
-    <!-- filter-name -->
-    <div class="text-4xl mb-2">{{ store.getters.listTitle }}</div>
-    <!-- addtask -->
-    <add-task-vue></add-task-vue>
+    <div class="sticky top-0 bg-main-bg pb-3 border-b border-main-gray-2">
+      <!-- filter-name -->
+      <div class="text-4xl mb-2">{{ store.getters.listTitle }}</div>
+      <!-- addtask -->
+      <add-task-vue></add-task-vue>
+    </div>
+
     <!-- collapse -->
     <collapse-vue v-bind="store.getters.task_group_first" class="my-5">
     </collapse-vue>

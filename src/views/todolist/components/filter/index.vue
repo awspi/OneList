@@ -58,6 +58,7 @@ import {
 import moment from 'moment'
 import { useStore } from 'vuex'
 import { getAllTaskList } from '@/api/task'
+import { onMounted } from 'vue'
 const store = useStore()
 const timeList = [
   { icon: 'filter', title: '所有', type: FILTER_ALL },
@@ -66,9 +67,9 @@ const timeList = [
   { icon: 'filter', title: '最近一个月', type: FILTER_MONTH }
 ]
 const condList = [
-  { icon: 'done', title: '已完成', type: FILTER_DONE },
-  { icon: 'recycle', title: '垃圾桶', type: FILTER_TRASH },
-  { icon: 'data-screen', title: '摘要', type: FILTER_LOG }
+  { icon: 'done', title: '已完成', type: FILTER_DONE }
+  // { icon: 'recycle', title: '垃圾桶', type: FILTER_TRASH },
+  // { icon: 'data-screen', title: '摘要', type: FILTER_LOG }
 ]
 
 /**
@@ -122,16 +123,17 @@ const filterByTime = async (type) => {
   }
   if (type === FILTER_WEEK) {
     afterList = list.filter((item) => {
-      const time = moment(item.alarmTime)
-      return moment(time).isBetween(moment().weekday(1), moment().weekday(7))
+      return (
+        moment().weekday(1).isBefore(item.endTime) ||
+        moment().weekday(7).isAfter(item.startTime)
+      )
     })
   }
   if (type === FILTER_MONTH) {
     afterList = list.filter((item) => {
-      const time = moment(item.alarmTime)
-      return moment(time).isBetween(
-        moment().startOf('month'),
-        moment().endOf('month')
+      return (
+        moment().startOf('month').isBefore(item.endTime) ||
+        moment().endOf('month').isAfter(item.startTime)
       )
     })
   }
@@ -150,6 +152,12 @@ const filterByState = async () => {
     store.commit('task/addTask', { priority: item.priority, taskItem: item })
   })
 }
+
+onMounted(() => {
+  store.commit('app/setCurrentFilter', FILTER_ALL)
+  store.commit('task/clearTaskList')
+  store.dispatch('task/initTaskList')
+})
 </script>
 
 <style lang="scss" scoped></style>

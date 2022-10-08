@@ -58,10 +58,10 @@ const store = useStore()
 const router = useRouter()
 
 const list = [
-  { name: 'todolist', route: '/' },
-  { name: 'calendar', route: '/calendar' },
-  { name: 'clock', route: '/clock' },
-  { name: 'statistic', route: '/statistic' }
+  { name: 'todolist', route: '/' }
+  // { name: 'calendar', route: '/calendar' }
+  // { name: 'clock', route: '/clock' },
+  // { name: 'statistic', route: '/statistic' }
 ]
 const btnArr = [
   { icon: 'todolist', name: '同步' },
