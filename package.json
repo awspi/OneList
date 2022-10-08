@@ -10,8 +10,10 @@
     "commit": "npx cz"
   },
   "dependencies": {
+    "ali-oss": "^6.17.1",
     "animate.css": "^4.1.1",
     "axios": "^0.27.2",
+    "cropperjs": "^1.5.12",
     "mitt": "^3.0.0",
     "moment": "^2.29.4",
     "qs": "^6.11.0",

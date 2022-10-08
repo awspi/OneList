@@ -8,12 +8,24 @@ OneList(一个清单) Web端仓库
 
 ![chrome](https://img.shields.io/badge/chrome-%3E%3D4.5-success.svg?logo=google%20chrome&logoColor=red) ![Andriod](https://img.shields.io/badge/andriod-suported-success.svg?logo=android) 
 
-<iframe src="https://ghbtns.com/github-btn.html?user=awspi&repo=OneList&type=star&size=large&count=true" frameborder="0" scrolling="0" width="130" height="30" title="GitHub"></iframe> <iframe src="https://ghbtns.com/github-btn.html?user=awspi&repo=OneList&type=fork&size=large&count=true" frameborder="0" scrolling="0" width="130" height="30" title="GitHub"></iframe> <iframe src="https://ghbtns.com/github-btn.html?user=awspi&repo=OneList&type=watch&size=large&count=true" frameborder="0" scrolling="0" width="140" height="30" title="GitHub"></iframe>
-
 ##  项目描述
 
 - 一个基于 Vue3+Vite+tailwindcss的 " **简洁清单项目** "，帮助您合理安排一天中的任务安排。
 - 一个帮你高效完成任务和规划时间的应用，是一款拥有跨设备云同步、清单管理、清晰分类的应用，你可以在Web、Android、微信小程序端使用它
+
+
+## 示例
+
+你可以点击下方的链接在线体验：
+
+[🚀🚀🚀](https://gitee.com/link?target=http%3A%2F%2Fdatav.avuejs.com)[一个清单演示地址]:http://152.136.30.105:8090/
+
+##   预览
+
+<img src="http://lyc-markdownimg.test.upcdn.net/img/202210081038658.png" alt="image-20221008103803275" style="width:50%;" /><img src="http://lyc-markdownimg.test.upcdn.net/img/202210081044641.png" alt="image-20221008104412246" style="width:50%;" />
+
+<img src="http://lyc-markdownimg.test.upcdn.net/img/202210081037896.png" alt="image-20221008103722693" style="width:50%;" /><img src="http://lyc-markdownimg.test.upcdn.net/img/202210081037814.png" alt="image-20221008103737653" style="width:50%;" />
+
 
 ## 技术细节
 
@@ -45,17 +57,6 @@ OneList(一个清单) Web端仓库
 - 回收站
 - 打卡
 
-##   预览
-
-<img src="http://lyc-markdownimg.test.upcdn.net/img/202210081038658.png" alt="image-20221008103803275" style="width:50%;" /><img src="http://lyc-markdownimg.test.upcdn.net/img/202210081044641.png" alt="image-20221008104412246" style="width:50%;" />
-
-<img src="http://lyc-markdownimg.test.upcdn.net/img/202210081037896.png" alt="image-20221008103722693" style="width:50%;" /><img src="http://lyc-markdownimg.test.upcdn.net/img/202210081037814.png" alt="image-20221008103737653" style="width:50%;" />
-
-## 示例
-
-你可以点击下方的链接在线体验：
-
-[🚀🚀🚀](https://gitee.com/link?target=http%3A%2F%2Fdatav.avuejs.com)[一个清单演示地址]:http://152.136.30.105:8090/
 
 ###  模块说明
 

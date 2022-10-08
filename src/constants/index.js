@@ -21,3 +21,6 @@ export const TASK_GROUP_RELATIONS = {
 }
 //前端缓存过期时间
 export const EXPIRE_TIME = 60000 //过期时间 1分钟
+//STS上传数据
+export const REGION = 'oss-cn-hangzhou'
+export const BUCKET = 'p-onelist'

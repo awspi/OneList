@@ -40,15 +40,24 @@
 
 <script setup>
 //confrim组件以方法调用的形式展示,需要手动导入组件
-import { ref, watch } from 'vue'
+import { ref, toRef, watch } from 'vue'
 import mButton from '../button/index.vue'
 
 //控制显示
-const isVisible = ref(props.modelValue)
+const isVisible = toRef(props, 'modelValue')
 const emits = defineEmits(['update:modelValue'])
-watch(isVisible, () => {
-  emits('update:modelValue', isVisible.value)
-})
+
+watch(
+  isVisible,
+  () => {
+    //todo
+    emits('update:modelValue', isVisible.value)
+    console.log(props)
+  },
+  {
+    immediate: true
+  }
+)
 //
 const props = defineProps({
   //控制开关
