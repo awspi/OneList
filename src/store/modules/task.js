@@ -86,6 +86,7 @@ export default {
       commit('clearTaskList')
       //getList
       const res = await getAllTaskList()
+      console.log('res,', res)
       const list = res.lists
       console.log(list)
       list.forEach((item) => {

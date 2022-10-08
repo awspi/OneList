@@ -64,7 +64,8 @@
 <script setup>
 import { getCurrentInstance, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
-import { message } from '../../../../libs'
+import { message } from '@/libs'
+const store = useStore()
 const editable = ref(false)
 // 里面的字符可以根据自己的需要进行调整
 
@@ -100,7 +101,6 @@ onMounted(() => {
     }, 100)
   })
 })
-const store = useStore()
 const onEdit = () => {
   if (editable.value) {
     store.dispatch('task/updateTaskInfo', {

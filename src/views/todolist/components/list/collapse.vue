@@ -19,7 +19,10 @@
     <template v-for="item in list" :key="item.title">
       <div
         v-show="!isCollapse"
-        class="flex items-center cursor-pointer"
+        class="flex items-center cursor-pointer hover:scale-105 hover:bg-main-shallow/20 duration-150 rounded-md"
+        :class="{
+          'bg-main-shallow/20 ': $store.getters.detailTaskId === item.id
+        }"
         @click="onTaskClick(item)"
         @contextmenu.prevent="openMenu($event, item)"
       >
@@ -64,7 +67,7 @@
 
 <script setup>
 import moment from 'moment'
-import { computed, getCurrentInstance, ref } from 'vue'
+import { computed, getCurrentInstance, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 
 import contextMenuVue from './contextMenu.vue'
@@ -128,6 +131,7 @@ const onTaskClick = (item) => {
       time: `${item.startTime}  ~  ${item.endTime}`
     })
 }
+
 /**
  * 修改完成状态
  */
@@ -137,6 +141,10 @@ const changeState = (item) => {
     state: !item.state || item.state === 0 ? 1 : 0 //state不为空或者==0则制为1 其他情况设置为0
   })
 }
+
+onMounted(() => {
+  store.commit('app/setDetailTaskId', '')
+})
 </script>
 
 <style lang="scss" scoped></style>

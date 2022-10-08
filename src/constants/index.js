@@ -19,3 +19,5 @@ export const TASK_GROUP_RELATIONS = {
   task_group_third: 3,
   task_group_fourth: 4
 }
+//前端缓存过期时间
+export const EXPIRE_TIME = 60000 //过期时间 1分钟
