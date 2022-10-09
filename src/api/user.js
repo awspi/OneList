@@ -39,3 +39,20 @@ export const putProfile = (data) => {
     method: 'PUT'
   })
 }
+/**
+ * 注销用户信息
+ */
+export const cancellationProfile = () => {
+  return request({
+    url: '/user/delete',
+    method: 'DELETE'
+  })
+}
+// 验证密码是否正确
+export const verificationPassword = (data) => {
+  return request({
+    url: '/user/safe',
+    method: 'POST',
+    data: data
+  })
+}

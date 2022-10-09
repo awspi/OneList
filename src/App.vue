@@ -5,12 +5,6 @@
   </div>
 </template>
 
-<script setup>
-console.log('import.url', import.meta.env.VITE_BASE_API)
-</script>
+<script setup></script>
 
-<style scoped>
-.body {
-  font-family: AliFont;
-}
-</style>
+<style scoped></style>

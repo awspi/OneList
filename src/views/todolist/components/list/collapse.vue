@@ -19,7 +19,10 @@
     <template v-for="item in list" :key="item.title">
       <div
         v-show="!isCollapse"
-        class="flex items-center cursor-pointer"
+        class="flex items-center cursor-pointer hover:scale-105 hover:bg-main-shallow/20 duration-150 rounded-md"
+        :class="{
+          'bg-main-shallow/20 ': $store.getters.detailTaskId === item.id
+        }"
         @click="onTaskClick(item)"
         @contextmenu.prevent="openMenu($event, item)"
       >
@@ -34,7 +37,13 @@
         >
           <p class="text-base">{{ item.name }}</p>
           <p class="text-xs font-semibold">
-            {{ moment(item.startTime).fromNow() }}
+            {{
+              item.startTime !== item.endTime
+                ? `${moment(item.startTime).format(
+                    'YY-MM-DD HH:MM'
+                  )}  ~  ${moment(item.endTime).format('YY-MM-DD HH:MM')}`
+                : `${moment(item.startTime).format('YY-MM-DD HH:MM')}`
+            }}
           </p>
         </div>
       </div>
@@ -58,7 +67,7 @@
 
 <script setup>
 import moment from 'moment'
-import { computed, getCurrentInstance, ref } from 'vue'
+import { computed, getCurrentInstance, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 
 import contextMenuVue from './contextMenu.vue'
@@ -108,15 +117,21 @@ const isCollapse = ref(false)
  * 任务被点击 打开detail
  */
 const onTaskClick = (item) => {
-  console.log(item)
   //控制detail显示
-
-  proxy.$mitt.emit('detail', {
-    name: item.name,
-    desc: item.description,
-    time: item.alarmTime
-  })
+  if (store.getters.detailTaskId === item.id) {
+    //如果相同就不重复打开detail
+    return
+  }
+  store.commit('app/setDetailTaskId', item.id)
+  if (item)
+    proxy.$mitt.emit('detail', {
+      id: item.id,
+      name: item.name,
+      desc: item.description,
+      time: `${item.startTime}  ~  ${item.endTime}`
+    })
 }
+
 /**
  * 修改完成状态
  */
@@ -126,6 +141,10 @@ const changeState = (item) => {
     state: !item.state || item.state === 0 ? 1 : 0 //state不为空或者==0则制为1 其他情况设置为0
   })
 }
+
+onMounted(() => {
+  store.commit('app/setDetailTaskId', '')
+})
 </script>
 
 <style lang="scss" scoped></style>

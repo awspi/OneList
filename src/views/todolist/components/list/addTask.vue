@@ -31,21 +31,23 @@
       <div class="flex items-center py-1 px-2">
         <!-- left -->
         <!-- 时间 -->
-        <div
-          v-for="option in options"
-          :key="option.name"
-          class="flex justify-center items-center shrink-0 bg-main-bg-2 rounded-md mx-1.5 px-2 py-0.5 hover:scale-95 duration-150 cursor-pointer"
-          :class="{
-            'border border-main-gray scale-95': selectedOption === option.name
-          }"
-          @click="onOptionsHandler(option)"
-        >
-          <m-svg-icon
-            name="date"
-            :fill-class="option.fillClass"
-            class="w-6 h-6"
-          ></m-svg-icon>
-          <p class="text-sm text-main-gray">{{ option.name }}</p>
+        <div>
+          <div class="text-sm text-main-gray">开始时间</div>
+          <flat-pickr
+            v-model="taskForm.startTime"
+            class="w-32"
+            :config="config"
+            placeholder="开始时间"
+          ></flat-pickr>
+        </div>
+        <div>
+          <div class="text-sm text-main-gray">结束时间</div>
+          <flat-pickr
+            v-model="taskForm.endTime"
+            class="w-32"
+            :config="config"
+            placeholder="结束时间"
+          ></flat-pickr>
         </div>
         <!-- 优先级 -->
         <template v-for="item in proArr" :key="item.fillClass">
@@ -72,19 +74,6 @@
         </button>
       </div>
     </template>
-    <!-- 遮罩 -->
-    <div
-      v-show="isVisible"
-      class="absolute left-0 top-0 w-screen h-screen"
-      @click="() => (isVisible = !isVisible)"
-    ></div>
-    <!-- 其他时间 -->
-    <m-date-picker
-      v-show="isVisible"
-      v-model="taskForm.alarmTime"
-      class="absolute w-60"
-      @select="isVisible = !isVisible"
-    ></m-date-picker>
   </div>
 </template>
 
@@ -93,26 +82,37 @@ import { ref } from 'vue'
 import { message } from '@/libs'
 import moment from 'moment'
 import { useStore } from 'vuex'
+import flatPickr from 'vue-flatpickr-component' //引入flatpickr组件
+import 'flatpickr/dist/flatpickr.css' //引入他的css样式
+import { Mandarin } from 'flatpickr/dist/l10n/zh.js' //引入普通话语言包
+//
+
+const config = {
+  wrap: true,
+  altInput: true,
+  altFormat: 'y-n-j H:n', //选择时显示的时间
+  enableTime: true, //选择小时分种
+  defaultHour: 8, //默认8点
+  time_24hr: true, //时间24小时制
+  locale: Mandarin, //中文
+  altInputClass: ' text-sm w-24 mr-3'
+}
+//
 const store = useStore()
 // 表单
 const taskForm = ref({
   name: '',
   description: '',
   alarmTime: '',
-  startTime: '',
-  endTime: '',
-  priority: '',
+  startTime: moment().format('YYYY-MM-DD HH:MM'),
+  endTime: moment().format('YYYY-MM-DD HH:MM'),
+  priority: 1,
   state: '0'
 })
-const isVisible = ref(false)
+
 // 是否折叠
 const isCollapse = ref(false)
-// 时间选项
-const options = [
-  { name: '今天', fillClass: 'fill-main' },
-  { name: '明天', fillClass: 'fill-green-700' },
-  { name: '其他时间', fillClass: 'fill-main-gray' }
-]
+
 //优先级
 const proArr = ref([
   { value: '1', fillClass: 'fill-pro-1' },
@@ -121,38 +121,7 @@ const proArr = ref([
   { value: '4', fillClass: 'fill-pro-4' }
 ])
 const selectedPro = ref('1')
-/**
- * 选中的option
- */
-const selectedOption = ref('今天')
-/**
- *  设置alarmTime
- * @param {*} option
- */
-const onOptionsHandler = (option) => {
-  selectedOption.value = option.name
-  switch (option.name) {
-    case '今天':
-      taskForm.value.alarmTime = moment()
-        .startOf('day')
-        .format('YYYY-MM-DD HH:MM:SS')
-      console.log(option)
-      break
-    case '明天':
-      taskForm.value.alarmTime = moment()
-        .add(1, 'days')
-        .startOf('day')
-        .format('YYYY-MM-DD HH:MM:SS')
-      console.log(option)
-      break
-    case '其他时间':
-      isVisible.value = true
-      break
 
-    default:
-      break
-  }
-}
 //添加任务
 const onAddTaskClick = () => {
   if (!taskForm.value.name) {
@@ -160,26 +129,22 @@ const onAddTaskClick = () => {
     return
   }
   //默认情况
-  if (selectedOption.value === '今天') {
-    taskForm.value.alarmTime = moment()
-      .startOf('day')
-      .format('YYYY-MM-DD HH:MM:SS')
-  }
-  taskForm.value.startTime = taskForm.value.alarmTime
-  taskForm.value.endTime = taskForm.value.alarmTime
+
   taskForm.value.priority = selectedPro.value //优先级
   isCollapse.value = !isCollapse.value
   //todo api
+  taskForm.value.startTime += ':00'
+  taskForm.value.endTime += ':00'
   store.dispatch('task/createTask', taskForm.value)
   //复原
-  selectedOption.value = '今天'
+  // selectedOption.value = '今天'
   taskForm.value = {
     name: '',
     description: '',
     alarmTime: '',
-    startTime: '',
-    endTime: '',
-    priority: '',
+    startTime: moment().format('YYYY-MM-DD HH:MM'),
+    endTime: moment().format('YYYY-MM-DD HH:MM'),
+    priority: 1,
     state: '0'
   }
 }

@@ -57,7 +57,8 @@ import {
 } from '@/constants'
 import moment from 'moment'
 import { useStore } from 'vuex'
-import { getAllTaskList } from '../../../../api/task'
+import { getAllTaskList } from '@/api/task'
+import { onMounted } from 'vue'
 const store = useStore()
 const timeList = [
   { icon: 'filter', title: '所有', type: FILTER_ALL },
@@ -66,9 +67,9 @@ const timeList = [
   { icon: 'filter', title: '最近一个月', type: FILTER_MONTH }
 ]
 const condList = [
-  { icon: 'done', title: '已完成', type: FILTER_DONE },
-  { icon: 'recycle', title: '垃圾桶', type: FILTER_TRASH },
-  { icon: 'data-screen', title: '摘要', type: FILTER_LOG }
+  { icon: 'done', title: '已完成', type: FILTER_DONE }
+  // { icon: 'recycle', title: '垃圾桶', type: FILTER_TRASH },
+  // { icon: 'data-screen', title: '摘要', type: FILTER_LOG }
 ]
 
 /**
@@ -111,45 +112,52 @@ const onFilterCLickHandler = (item) => {
 const filterByTime = async (type) => {
   const res = await getAllTaskList()
   const list = res.lists
-  // store.commit('task/clearTaskList')
   let afterList = []
-  //todo 待确定
   if (type === FILTER_TODAY) {
+    //今日任务
     afterList = list.filter((item) => {
-      const time = moment(item.alarmTime)
-      return moment().isSame(time, 'day')
+      return item.startTime !== item.endTime
+        ? moment().isBetween(item.startTime, item.endTime)
+        : moment().isSame(item.startTime, 'day')
     })
   }
   if (type === FILTER_WEEK) {
     afterList = list.filter((item) => {
-      const time = moment(item.alarmTime)
-      return moment(time).isBetween(moment().weekday(1), moment().weekday(7))
+      return (
+        moment().weekday(1).isBefore(item.endTime) ||
+        moment().weekday(7).isAfter(item.startTime)
+      )
     })
   }
   if (type === FILTER_MONTH) {
     afterList = list.filter((item) => {
-      const time = moment(item.alarmTime)
-      return moment(time).isBetween(
-        moment().startOf('month'),
-        moment().endOf('month')
+      return (
+        moment().startOf('month').isBefore(item.endTime) ||
+        moment().endOf('month').isAfter(item.startTime)
       )
     })
   }
   console.log(afterList)
   store.commit('task/clearTaskList')
   afterList.forEach((item) => {
-    store.commit('task/addTask', { key: `pro_${item.priority}`, val: item })
+    store.commit('task/addTask', { priority: item.priority, taskItem: item })
   })
 }
 const filterByState = async () => {
   const res = await getAllTaskList()
   const list = res.lists
-  const afterList = list.filter((item) => item.state?.toString() === '0')
+  const afterList = list.filter((item) => item.state?.toString() === '1')
   store.commit('task/clearTaskList')
   afterList.forEach((item) => {
-    store.commit('task/addTask', { key: `pro_${item.priority}`, val: item })
+    store.commit('task/addTask', { priority: item.priority, taskItem: item })
   })
 }
+
+onMounted(() => {
+  store.commit('app/setCurrentFilter', FILTER_ALL)
+  store.commit('task/clearTaskList')
+  store.dispatch('task/initTaskList')
+})
 </script>
 
 <style lang="scss" scoped></style>

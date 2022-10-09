@@ -5,9 +5,10 @@ import 'virtual:svg-icons-register' //注册svg-icons
 import mLibs from './libs' //注册通用组件
 import store from './store' //vuex
 import router from './router' //router
-import './assets/fonts/Alibab.css' //引用阿里巴巴字体
+import './assets/fonts/Alibaba.css' //引用阿里巴巴字体
 import mitt from 'mitt' //
 import './permission' //路由守卫
+import 'animate.css/animate.min.css' //引入animate
 import moment from 'moment'
 moment.locale('zh-cn', {
   months:

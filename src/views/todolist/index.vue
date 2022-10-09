@@ -17,8 +17,7 @@ import { onMounted } from 'vue'
 import { useStore } from 'vuex'
 const store = useStore()
 onMounted(() => {
-  console.log('initTaskList')
-  store.dispatch('task/initTaskList')
+  // store.dispatch('task/initTaskList')
 })
 </script>
 
