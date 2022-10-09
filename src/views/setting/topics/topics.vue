@@ -31,11 +31,8 @@
 </template>
 
 <script lang="ts" setup>
-import ref from 'Vue'
 import { useStore } from 'vuex'
 const store = useStore()
-
-const themeColor = '#82b3e2'
 
 const changeColor = (newColor) => {
   const res = store.commit('app/setThemecolor', newColor)
