@@ -61,14 +61,14 @@
                 <input
                   v-model="passwordChange.oldPassword"
                   class="change-input"
-                  type="text"
+                  type="password"
                   placeholder="当前密码"
                   @change="changeInput"
                 />
                 <input
                   v-model="passwordChange.newPassword"
                   class="change-input"
-                  type="text"
+                  type="password"
                   placeholder="新密码"
                   @change="changeInput"
                 />
@@ -87,29 +87,7 @@
           </template>
         </transition>
       </div>
-      <div class="info-title info-space">第三方账号绑定</div>
-      <div class="bind info-space">
-        <div class="bind-box">
-          <m-svg-icon
-            name="QQ"
-            class="mt-6 w-10 h-10 p-1 rounded-md duration-150 cursor-pointe icon"
-            fill-class="text-white"
-          ></m-svg-icon>
-          <div class="icon-text">
-            <span>QQ </span><a class="change-bnt" @click="errBnt">立即绑定</a>
-          </div>
-        </div>
-        <div class="bind-box">
-          <m-svg-icon
-            name="wechat"
-            class="mt-6 w-10 h-10 p-1 rounded-md duration-150 cursor-pointe icon"
-            fill-class="text-white"
-          ></m-svg-icon>
-          <div class="icon-text">
-            <span>微信</span><a class="change-bnt" @click="errBnt">立即绑定</a>
-          </div>
-        </div>
-      </div>
+
       <div class="info-title info-space">注销账号</div>
       <div class="cancellation" @click="cancellation">注销账号</div>
     </div>
