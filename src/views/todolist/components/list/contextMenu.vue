@@ -72,7 +72,6 @@
 </template>
 
 <script setup>
-import moment from 'moment'
 import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import flatPickr from 'vue-flatpickr-component' //引入flatpickr组件

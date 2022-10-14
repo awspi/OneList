@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide">
+  <Transition name="slide">
     <div
       v-if="isVisible"
       class="bg-main-bg rounded-md shadow-sm shadow-white/70 duration-150"
@@ -58,7 +58,7 @@
         </div>
       </div>
     </div>
-  </transition>
+  </Transition>
 </template>
 
 <script setup>
