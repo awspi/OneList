@@ -93,11 +93,10 @@ export default {
       })
     },
     //新建任务
-    async createTask({ commit, dispatch }, payload) {
+    async createTask({ commit }, payload) {
       console.log(payload)
       const res = await newTask(payload)
       if (res.state) {
-        //todo payload 缺少id参数 等待后端更新
         commit('addTask', {
           priority: payload.priority,
           taskItem: payload
@@ -106,7 +105,8 @@ export default {
         message('success', '新建成功')
       }
     },
-    async updateTaskInfo({ commit, dispatch }, payload) {
+    //更新任务内容
+    async updateTaskInfo({ commit }, payload) {
       const res = await updateTask(payload)
       if (res.state) {
         message('success', '修改任务成功')
@@ -117,7 +117,7 @@ export default {
       }
     },
     //更新优先级
-    async updatePriority({ commit, dispatch }, payload) {
+    async updatePriority({ commit }, payload) {
       console.log(payload)
       const { id, afterPriority } = payload
       const res = await updateTask({ id, priority: afterPriority })
@@ -131,7 +131,7 @@ export default {
       }
     },
     //更新时间
-    async updateDate({ commit, dispatch }, payload) {
+    async updateDate({ commit }, payload) {
       const res = await updateTask(payload)
       if (res.state) {
         // dispatch('initTaskList')
@@ -140,7 +140,7 @@ export default {
       }
     },
     //删除任务
-    async deleteTaskItem({ commit, dispatch }, payload) {
+    async deleteTaskItem({ commit }, payload) {
       confirm('提示', '确定要删除吗').then(async () => {
         console.log(payload)
         await deleteTask(payload)
@@ -149,7 +149,7 @@ export default {
       })
     },
     //更新完成状态
-    async changeState({ commit, dispatch }, payload) {
+    async changeState({ commit }, payload) {
       const res = await updateTask(payload)
       console.log(payload)
       console.log(res)
