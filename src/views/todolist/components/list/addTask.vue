@@ -53,7 +53,7 @@
         <template v-for="item in proArr" :key="item.fillClass">
           <m-svg-icon
             name="flag"
-            class="w-7 h-7 p-1 m-1 hover:bg-main-shallow/20 cursor-pointer"
+            class="w-7 h-7 p-1 m-1 hover:bg-main-shallow/20 cursor-pointer flex-shrink-0"
             :fill-class="item.fillClass"
             :class="{ 'bg-main-shallow/20': item.value === selectedPro }"
             @click="selectedPro = item.value"
@@ -67,7 +67,7 @@
           取消
         </button>
         <button
-          class="text-sm text-center shrink-0 rounded text-white bg-main px-4 py-0.5 border border-main-gray-2 hover:bg-main/90 duration-150"
+          class="text-sm text-center shrink-0 rounded text-white bg-main px-4 py-0.5 border border-main-gray-2 hover:bg-main/90 duration-150 mr-1"
           @click.stop="onAddTaskClick"
         >
           确定
@@ -95,7 +95,7 @@ const config = {
   defaultHour: 8, //默认8点
   time_24hr: true, //时间24小时制
   locale: Mandarin, //中文
-  altInputClass: ' text-sm w-24 mr-3'
+  altInputClass: ' text-sm w-[100px] mr-2'
 }
 //
 const store = useStore()

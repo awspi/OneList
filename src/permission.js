@@ -10,6 +10,7 @@ router.beforeEach((to, from) => {
     return true
   }
   if (store.getters.token) {
+    //todo 验证token过期
     return true
   }
   if (to.meta.user && !store.getters.token) {
