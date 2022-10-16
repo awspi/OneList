@@ -24,3 +24,6 @@ export const EXPIRE_TIME = 60000 //过期时间 1分钟
 //STS上传数据
 export const REGION = 'oss-cn-hangzhou'
 export const BUCKET = 'p-onelist'
+//前端埋点
+export const TRIGGER_TYPE_BROWSE = 'browse'
+export const TRIGGER_TYPE_CLICK = 'click'

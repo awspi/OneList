@@ -2,6 +2,12 @@
   <Transition name="slide">
     <div
       v-if="isVisible"
+      v-track="{
+        triggerType: TRIGGER_TYPE_BROWSE,
+        currentUrl: $route.path,
+        behavior: '浏览detail功能',
+        actionType: '用户操作'
+      }"
       class="bg-main-bg rounded-md shadow-sm shadow-white/70 duration-150"
     >
       <!-- topbar -->
@@ -15,6 +21,12 @@
         ></m-svg-icon>
         <div class="h-8 mx-3 w-[1px] bg-main-gray-2"></div>
         <m-svg-icon
+          v-track="{
+            triggerType: TRIGGER_TYPE_CLICK,
+            currentUrl: $route.path,
+            behavior: '编辑任务功能',
+            actionType: '用户操作'
+          }"
           :name="editable ? 'save' : 'edit'"
           class="w-8 h-8 p-0.5 mr-4 hover:scale-105 cursor-pointer duration-150"
           fill-class="fill-main-text-blue"
@@ -65,10 +77,10 @@
 import { getCurrentInstance, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { message } from '@/libs'
+import { TRIGGER_TYPE_BROWSE, TRIGGER_TYPE_CLICK } from '@/constants'
 const store = useStore()
 const editable = ref(false)
 // 里面的字符可以根据自己的需要进行调整
-
 const taskId = ref(0)
 const taskName = ref('')
 const taskDesc = ref('')

@@ -3,11 +3,13 @@ import './style.css'
 import App from './App.vue'
 import 'virtual:svg-icons-register' //注册svg-icons
 import mLibs from './libs' //注册通用组件
+import installDirective from '@/directives' //引入自定义指令
 import store from './store' //vuex
 import router from './router' //router
 import './assets/fonts/Alibaba.css' //引用阿里巴巴字体
 import mitt from 'mitt' //
 import './permission' //路由守卫
+import './utils/countTime' //埋点 路由跳转
 import 'animate.css/animate.min.css' //引入animate
 import moment from 'moment'
 moment.locale('zh-cn', {
@@ -109,5 +111,8 @@ moment.locale('zh-cn', {
 })
 
 const app = createApp(App)
+installDirective(app) //注册自定义指令
+
 app.config.globalProperties.$mitt = mitt() //mitt挂载到全局
+
 app.use(mLibs).use(store).use(router).mount('#app')

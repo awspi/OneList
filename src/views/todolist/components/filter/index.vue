@@ -7,6 +7,12 @@
       <div
         v-for="item in timeList"
         :key="item.name"
+        v-track="{
+          triggerType: TRIGGER_TYPE_CLICK,
+          currentUrl: $route.path,
+          behavior: '浏览filter功能',
+          actionType: '用户操作'
+        }"
         class="flex items-center hover:bg-main/20 mx-3 rounded-md py-2 pl-3 mt-3 cursor-pointer duration-150"
         :class="{
           'bg-main/20': item.type === $store.getters.currentFilter
@@ -59,6 +65,7 @@ import moment from 'moment'
 import { useStore } from 'vuex'
 import { getAllTaskList } from '@/api/task'
 import { onMounted } from 'vue'
+import { TRIGGER_TYPE_BROWSE, TRIGGER_TYPE_CLICK } from '@/constants'
 const store = useStore()
 const timeList = [
   { icon: 'filter', title: '所有', type: FILTER_ALL },

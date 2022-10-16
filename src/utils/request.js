@@ -51,7 +51,7 @@ service.interceptors.request.use((config) => {
   // 未过期 cancel取消当前的请求 并将内容返回到拦截器的err中
   if (data && expire_time - data.expire < EXPIRE_TIME) {
     console.log('service:从缓存池中获取数据')
-    //从pending移出此次请求
+    //需要从pending移出此次请求
     removePending(config)
     cancel(data)
   }
