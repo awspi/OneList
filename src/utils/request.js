@@ -38,17 +38,17 @@ service.interceptors.request.use((config) => {
 
   //* 携带 CancelToken ,加入pending
   config.cancelToken = new CancelToken(function executor(c) {
-    cancel = c
+    cancel = c //* 保存到全局变量方便下文 [数据缓存] 调用
     pending.push({ request: requestStr, cancel: c })
   })
 
-  //* 判断数据是否存在以及过期
-  // 在缓存池获取缓存数据
+  //? 判断数据是否存在以及过期
+  //* 在缓存池获取缓存数据
   let data = cache[config.url]
   // 获取当前时间戳
   let expire_time = getExpireTime()
-  // 判断缓存池中是否存在已有数据 存在的话 再判断是否过期
-  // 未过期 cancel取消当前的请求 并将内容返回到拦截器的err中
+  //* 判断缓存池中是否存在已有数据 存在的话 再判断是否过期
+  //* 未过期 cancel取消当前的请求 并将内容返回到拦截器的err中
   if (data && expire_time - data.expire < EXPIRE_TIME) {
     console.log('service:从缓存池中获取数据')
     //需要从pending移出此次请求
@@ -78,9 +78,9 @@ service.interceptors.response.use(
     return response.data
   },
   (err) => {
-    // 请求拦截器中的cancel会将内容发送到error中
+    //! 请求拦截器中的cancel会将内容发送到[响应拦截器]的error中
     // CanceledError {message: {…}, name: 'CanceledError', code: 'ERR_CANCELED'}
-    // 通过axios.isCancel()来判断是否返回有数据
+    //* 通过axios.isCancel()来判断是否返回有数据
     if (axios.isCancel(err)) {
       return Promise.resolve({ ...err.message.data })
     }
@@ -90,13 +90,19 @@ service.interceptors.response.use(
   }
 )
 
-//已经完成的请求从pending中移除
+/**
+ * 将请求从pending中移除
+ * @param {*} config
+ */
 const removePending = (config) => {
-  pending = pending.filter((item) => {
-    return item.request !== config.url + '&' + config.method
-  })
+  pending = pending.filter(
+    (item) => item.request !== config.url + '&' + config.method
+  )
 }
-// 获取当前时间
+/**
+ * 获取当前时间
+ * @returns
+ */
 function getExpireTime() {
   return new Date().getTime()
 }

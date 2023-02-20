@@ -52,6 +52,7 @@ watch(
   () => {
     //todo
     emits('update:modelValue', isVisible.value)
+    console.log(props)
   },
   {
     immediate: true

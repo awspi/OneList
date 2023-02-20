@@ -80,12 +80,12 @@ const router = useRouter()
  */
 const isDialogVisible = ref(false)
 const inputFileTarget = ref(null)
-const currentBlob = ref('')
 
 /**
  * onSelectImgHandler
  * !当两次选择文件是同一个的时候,change的回调不会再次被触发->每次选择图片不再被使用时,清空掉inputFileTarget.value
  */
+const currentBlob = ref('')
 const onSelectImgHandler = () => {
   const imgFile = inputFileTarget.value.files[0]
   // 生成 blob 对象

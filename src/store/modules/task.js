@@ -57,7 +57,6 @@ export default {
      * @param {*} payload 必传id
      */
     refreshTask(state, payload) {
-      //todo 算法需要优化
       for (const [key, val] of Object.entries(TASK_GROUP_RELATIONS)) {
         state[key].list.filter((taskItem) => {
           if (taskItem.id === payload.id) {

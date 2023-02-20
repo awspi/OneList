@@ -137,6 +137,7 @@ const onAddTaskClick = () => {
   taskForm.value.endTime += ':00'
   store.dispatch('task/createTask', taskForm.value)
   //复原
+  // selectedOption.value = '今天'
   taskForm.value = {
     name: '',
     description: '',
